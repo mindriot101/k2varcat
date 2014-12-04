@@ -12,11 +12,15 @@ import os
 logging.basicConfig(level=logging.DEBUG, format='%(asctime)s|%(name)s|%(levelname)s|%(message)s')
 logger = logging.getLogger(__name__)
 
+BASEDIR = path.realpath(
+    path.join(
+        path.dirname(__file__)))
+
 
 def ensure_dir(p):
-    if not path.isdir(p):
-        logger.debug('Path %s does not exist, creating', p)
-        os.makedirs(p)
+    if path.isdir(p):
+        shutil.rmtree(p)
+    os.makedirs(p)
 
 
 def render_index(env, output_directory):
@@ -30,6 +34,14 @@ def render_index(env, output_directory):
 
 def copy_statics(output_directory):
     logger.info("Copying static files")
+    source_directory = path.join(BASEDIR, 'static')
+    logger.debug('Copying static files from %s', source_directory)
+    for dir in os.listdir(source_directory):
+        dest_dir = path.join(output_directory, dir)
+        source_dir = path.join(source_directory, dir)
+        if path.isdir(source_dir):
+            logger.debug('Copying %s to %s', source_dir, dest_dir)
+            shutil.copytree(source_dir, dest_dir)
 
 
 def main(args):
