@@ -3,3 +3,4 @@ data/*
 venv
 *.swp
 *.DS_Store
+build
