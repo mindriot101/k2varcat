@@ -21,8 +21,10 @@ def ensure_dir(p):
 
 def main(args):
     ensure_dir(args.output_dir)
+    env = jinja2.Environment(loader=jinja2.FileSystemLoader(args.template_dir))
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('-o', '--output-dir', default='build')
+    parser.add_argument('-t', '--template-dir', default='templates')
     main(parser.parse_args())
