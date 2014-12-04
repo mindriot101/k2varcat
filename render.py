@@ -21,6 +21,11 @@ def ensure_dir(p):
 
 def render_index(env, output_directory):
     logger.info('Rendering index file')
+    index_template = env.get_template('index.html')
+    with open(path.join(output_directory, 'index.html'), 'w') as outfile:
+        outfile.write(
+            index_template.render()
+        )
 
 
 def main(args):
