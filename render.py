@@ -28,9 +28,14 @@ def render_index(env, output_directory):
         )
 
 
+def copy_statics(output_directory):
+    logger.info("Copying static files")
+
+
 def main(args):
     ensure_dir(args.output_dir)
     env = jinja2.Environment(loader=jinja2.FileSystemLoader(args.template_dir))
+    copy_statics(args.output_dir)
     render_index(env, args.output_dir)
 
 if __name__ == '__main__':
