@@ -6,6 +6,8 @@ import argparse
 import logging
 import jinja2
 from os import path
+import shutil
+import os
 
 logging.basicConfig(level=logging.DEBUG, format='%(asctime)s|%(name)s|%(levelname)s|%(message)s')
 logger = logging.getLogger(__name__)
@@ -14,11 +16,11 @@ logger = logging.getLogger(__name__)
 def ensure_dir(p):
     if not path.isdir(p):
         logger.debug('Path %s does not exist, creating', p)
-        path.makedirs(p)
+        os.makedirs(p)
 
 
 def main(args):
-    logger.debug('Hello world')
+    ensure_dir(args.output_dir)
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
