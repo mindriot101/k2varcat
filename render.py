@@ -19,9 +19,14 @@ def ensure_dir(p):
         os.makedirs(p)
 
 
+def render_index(env, output_directory):
+    logger.info('Rendering index file')
+
+
 def main(args):
     ensure_dir(args.output_dir)
     env = jinja2.Environment(loader=jinja2.FileSystemLoader(args.template_dir))
+    render_index(env, args.output_dir)
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
