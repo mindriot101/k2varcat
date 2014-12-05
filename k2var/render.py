@@ -8,6 +8,7 @@ import jinja2
 from os import path
 import shutil
 import os
+import csv
 
 logging.basicConfig(level=logging.DEBUG, format='%(asctime)s|%(name)s|%(levelname)s|%(message)s')
 logger = logging.getLogger(__name__)
@@ -44,6 +45,41 @@ def copy_statics(output_directory):
             shutil.copytree(source_dir, dest_dir)
 
 
+class KeplerObject(object):
+
+    def __init__(self, data_dir, env, **keys):
+        self.data_dir = data_dir
+        self.env = env
+        self.epicid = keys['epicid']
+        self.period = float(keys['period'])
+        self.amplitude = float(keys['amplitude'])
+
+    def render(self, object_dir):
+        if not path.isfile(self.data_file):
+            logger.warning('Cannot find data file %s', self.data_file)
+            return None
+
+        logger.info('Rendering %s', self.epicid)
+
+        with open(self.output_filename(object_dir), 'w') as outfile:
+            outfile.write(self.template.render(
+                epicid=self.epicid,
+            ))
+
+    @property
+    def data_file(self):
+        return path.join(self.data_dir, 'ktwo{epicid}-c00_lpd-targ_X_D.fits'.format(
+            epicid=self.epicid))
+
+    @property
+    def template(self):
+        return self.env.get_template('lightcurve.html')
+
+    def output_filename(self, object_dir):
+        return path.join(object_dir, '{epicid}.html'.format(
+            epicid=self.epicid))
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('-o', '--output-dir', default='build')
@@ -53,3 +89,15 @@ def main():
     env = jinja2.Environment(loader=jinja2.PackageLoader('k2var', 'templates'))
     copy_statics(args.output_dir)
     render_index(env, args.output_dir)
+
+    object_dir = path.join(args.output_dir, 'objects')
+    if not path.isdir(object_dir):
+        os.makedirs(object_dir)
+
+    logger.info('Rendering objects')
+    with open(path.join(BASEDIR, 'K2VarCat.csv')) as infile:
+        reader = csv.DictReader(infile,
+                                fieldnames=['epicid', 'type', 'range', 'period', 'amplitude', 'proposal'])
+        for row in reader:
+            kepler_object = KeplerObject(args.data_dir, env, **row)
+            kepler_object.render(object_dir)
