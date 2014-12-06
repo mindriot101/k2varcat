@@ -10,6 +10,8 @@ import shutil
 import os
 import csv
 
+from K2Var import LightcurvePlotter
+
 logging.basicConfig(level=logging.DEBUG, format='%(asctime)s|%(name)s|%(levelname)s|%(message)s')
 logger = logging.getLogger(__name__)
 
@@ -70,6 +72,11 @@ class KeplerObject(object):
             epicid=self.epicid,
             period=self.period,
             amplitude=self.amplitude)
+
+    @property
+    def lightcurves(self):
+        plotter = LightcurvePlotter(self)
+        return self.template('plots.html').render(plotter=plotter)
 
     @property
     def data_file(self):

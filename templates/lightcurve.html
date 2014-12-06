@@ -3,6 +3,10 @@
 {% block content %}
 <h1>Object: {{ kepler_object.epicid }}</h1>
 
+<div id="plots">
+    {{ kepler_object.lightcurves }}
+</div>
+
 <div id="parameters">
     {{ kepler_object.parameters_table }}
 </div>
