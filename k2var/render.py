@@ -87,6 +87,7 @@ class KeplerObject(object):
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('-o', '--output-dir', default='build')
+    parser.add_argument('-d', '--data-dir', default='data')
     args = parser.parse_args()
 
     ensure_dir(args.output_dir)
