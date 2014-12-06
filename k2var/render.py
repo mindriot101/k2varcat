@@ -47,10 +47,9 @@ def copy_statics(output_directory):
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('-o', '--output-dir', default='build')
-    parser.add_argument('-t', '--template-dir', default='templates')
     args = parser.parse_args()
 
     ensure_dir(args.output_dir)
-    env = jinja2.Environment(loader=jinja2.FileSystemLoader(args.template_dir))
+    env = jinja2.Environment(loader=jinja2.PackageLoader('k2var', 'templates'))
     copy_statics(args.output_dir)
     render_index(env, args.output_dir)
