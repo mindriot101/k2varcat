@@ -64,6 +64,12 @@ class KeplerObject(object):
         with open(self.output_filename(object_dir), 'w') as outfile:
             outfile.write(self.template('lightcurve.html').render(kepler_object=self))
 
+    @property
+    def parameters_table(self):
+        return self.template('parameters_table.html').render(
+            epicid=self.epicid,
+            period=self.period,
+            amplitude=self.amplitude)
 
     @property
     def data_file(self):
