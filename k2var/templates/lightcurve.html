@@ -4,10 +4,12 @@
 <h1>Object: {{ kepler_object.epicid }}</h1>
 
 <div id="plots">
+    <h2>Plots</h2>
     {{ kepler_object.lightcurves }}
 </div>
 
 <div id="parameters">
+    <h2>Parameters</h2>
     {{ kepler_object.parameters_table }}
 </div>
 {% endblock content %}
