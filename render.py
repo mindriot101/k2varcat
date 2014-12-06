@@ -62,18 +62,16 @@ class KeplerObject(object):
         logger.info('Rendering %s', self.epicid)
 
         with open(self.output_filename(object_dir), 'w') as outfile:
-            outfile.write(self.template.render(
-                epicid=self.epicid,
-            ))
+            outfile.write(self.template('lightcurve.html').render(kepler_object=self))
+
 
     @property
     def data_file(self):
         return path.join(self.data_dir, 'ktwo{epicid}-c00_lpd-targ_X_D.fits'.format(
             epicid=self.epicid))
 
-    @property
-    def template(self):
-        return self.env.get_template('lightcurve.html')
+    def template(self, fname):
+        return self.env.get_template(fname)
 
     def output_filename(self, object_dir):
         return path.join(object_dir, '{epicid}.html'.format(
