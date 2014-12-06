@@ -1,5 +1,9 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>Object: {{ epicid }}</h1>
+<h1>Object: {{ kepler_object.epicid }}</h1>
+
+<div id="parameters">
+    {{ kepler_object.parameters_table }}
+</div>
 {% endblock content %}
