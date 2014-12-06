@@ -44,14 +44,13 @@ def copy_statics(output_directory):
             shutil.copytree(source_dir, dest_dir)
 
 
-def main(args):
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-o', '--output-dir', default='build')
+    parser.add_argument('-t', '--template-dir', default='templates')
+    args = parser.parse_args()
+
     ensure_dir(args.output_dir)
     env = jinja2.Environment(loader=jinja2.FileSystemLoader(args.template_dir))
     copy_statics(args.output_dir)
     render_index(env, args.output_dir)
-
-if __name__ == '__main__':
-    parser = argparse.ArgumentParser()
-    parser.add_argument('-o', '--output-dir', default='build')
-    parser.add_argument('-t', '--template-dir', default='templates')
-    main(parser.parse_args())
