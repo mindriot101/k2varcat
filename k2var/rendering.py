@@ -20,9 +20,11 @@ class Plotter(object):
 
     colours = sns.color_palette('gray', n_colors=5)
 
-    def __init__(self, x, y, yerr, xlabel=None, ylabel=None):
+    def __init__(self, x, y, yerr, xlabel=None, ylabel=None, ylims=None):
         self.x, self.y, self.yerr = x, y, yerr
         self.xlabel, self.ylabel = xlabel, ylabel
+        self.ylims = ylims
+
         self.fig = self.figure()
 
     def figure(self):
@@ -30,12 +32,16 @@ class Plotter(object):
         axis.errorbar(self.x, self.y, self.yerr, ls='None', marker='.',
                       color=self.colours[0], alpha=0.3, capsize=0.)
         axis.plot(self.x, self.y, ls='None', marker='.',
-                      color=self.colours[0])
-        if self.xlabel:
+                  color=self.colours[0])
+        if self.xlabel is not None:
             axis.set_xlabel(self.xlabel)
 
-        if self.ylabel:
+        if self.ylabel is not None:
             axis.set_ylabel(self.ylabel)
+
+        if self.ylims is not None:
+            axis.set_ylim(*self.ylims)
+
         return fig
 
     def add_amplitude_markers(self, amplitude):
@@ -98,6 +104,7 @@ class LightcurvePlotter(object):
             yerr,
             xlabel='BJD',
             ylabel='Detrended flux',
+            ylims=self.range_ylims(),
         ).render()
 
     def phase_folded(self):
@@ -112,6 +119,7 @@ class LightcurvePlotter(object):
                 yerr,
                 xlabel='Orbital phase',
                 ylabel='Detrended flux',
+                ylims=self.range_ylims(),
             ).add_amplitude_markers(self.meta['amplitude']).render()
         else:
             return EmptyPlot().render()
@@ -122,3 +130,7 @@ class LightcurvePlotter(object):
                                detrended=self.detrended_lightcurve(),
                                folded=self.phase_folded(),
                                )
+
+    def range_ylims(self):
+        plot_range = self.meta['range']
+        return (1. - plot_range / 100., 1. + plot_range / 100.)
