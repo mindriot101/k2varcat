@@ -37,7 +37,7 @@ def render_epic_id(epicid):
     plotter = LightcurvePlotter(meta, filename)
     return render_template('lightcurve.html',
                            epicid=epicid,
-                           data=plotter)
+                           renderer=plotter)
 
 def main():
     app.run(debug=True)

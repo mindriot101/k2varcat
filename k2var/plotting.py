@@ -36,10 +36,18 @@ class Plotter(object):
         axis.errorbar(self.x, self.y, self.yerr, ls='None', marker='.')
         return fig
 
+
 class LightcurvePlotter(object):
+
     def __init__(self, meta, filename):
         self.period = meta['period']
         self.amplitude = meta['amplitude']
+
+    def lightcurves(self):
+        return 'Lightcurves'
+
+    def parameters_table(self):
+        return 'Parameters'
 
 # class LightcurvesPlotter(object):
 
