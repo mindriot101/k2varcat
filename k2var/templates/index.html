@@ -4,32 +4,34 @@
     <div id="noscript_note">You must have JavaScript enabled to view this page.</div>
 </noscript>
 
-<div class="container-fluid">
-    <div class="row-fluid">
-        <div class="col-md-12">
-            <h1>K2VarCat: K2 Variable Star Catalogue</h1>
-            <p> Catalogue v1 currently contains data from 
-                the K2 Campaign 0 mission only. Please see <a href='http://arxiv.org/abs/1411.6830'>this arxiv release</a> for more detail. The catalogue is also available as a <a href='K2VarCat.csv'>csv file </a>.</p>
-            <p> Field Descriptions:</p>
-            <p> <strong>EPIC ID</strong> - Epic catalogue identifier. Click on ID to get to the MAST K2 data page for that object.</p>
-            <p> <strong>Type</strong> - Classification, AP: Aperiodic (or period longer than 15d), QP: Quasiperiodic (period and/or amplitude changes), P: Strictly sinusoidal periodic.</p>
-            <p> <strong>Range (%)</strong> - Maximum to Minimum range of binned lightcurve. Percentage is relative to the median flux level.</p>
-            <p> <strong>Period (d)</strong> - Lomb-Scargle periodogram peak. Zero for Aperiodic systems.</p>
-            <p> <strong>Amplitude (%)</strong> - Semi-amplitude of lightcurve phase folded and binned at stated period. Percentage is relative to the median flux level. Zero for Aperiodic systems. </p>
-            <p> <strong>Proposal Information</strong> - If object is from a variable star related proposal: Proposal Number, and variable star type in brackets.</p>
+<div class="page-header">
+    <h1>K2VarCat: K2 Variable Star Catalogue</h1>
+</div>
 
-            <!--            <p>Use <a href="http://builtbybalance.com/Tabletop/">Tabletop.js</a> to pull json from Google Spreadsheet and feed it to the <a href="http://datatables.net/">DataTables</a> jQuery plugin.</p>
-            <p>Demo by <a href="https://twitter.com/CourierEssig">Chris Essig</a> &amp; <a href="https://twitter.com/ChrisLKeller">Chris Keller</a> and made possible thanks to the Open Source work of <a href="http://twitter.com/dangerscarf">Jonathan Soma</a> &amp; <a href="https://github.com/DataTables">Allan Jardine</a>.</p>
-            <ul>
-                <li><p><a href="http://projects.chrislkeller.com/demos/tabletop_to_datatables">Demo Page</a></p></li>
-                <li><p><a href="https://github.com/chrislkeller/tabletop_to_datatables">Fork the Repo</a></p></li>
-                <li><p><a href="https://github.com/chrislkeller/tabletop_to_datatables#readme">View the ReadMe</a></p></li>
-            </ul>    -->
-        </div>
+<div class="row-fluid">
+    <div class="col-md-8 col-md-offset-2">
+        <p class="text-center">Catalogue v1 currently contains data from the K2 Campaign 0 mission only. Please see <a href='http://arxiv.org/abs/1411.6830'>this arxiv release</a> for more detail.
+        The catalogue is also available as a <a href='K2VarCat.csv'>csv file</a>.</p>
     </div>
-    <div class="row-fluid">
-        <div class="span12">
-            <div id="demo"></div>
+</div>
+
+<div class="row-fluid">
+    <div class="col-md-12">
+        <h4>Field descriptions</h4>
+        <dl class="dl-horizontal">
+            <dt>EPIC ID</dt>
+            <dd>Epic catalogue identifier. Click on ID to get to the detail page.</dd>
+            <dt>Type</dt>
+            <dd>Classification, AP: Aperiodic (or period longer than 15d), QP: Quasiperiodic (period and/or amplitude changes), P: Strictly sinusoidal periodic.</dd>
+            <dt>Range (%)</dt>
+            <dd>Maximum to Minimum range of binned lightcurve. Percentage is relative to the median flux level.</dd>
+            <dt>Period (d)</dt>
+            <dd>Lomb-Scargle periodogram peak. Zero for Aperiodic systems.</dd>
+            <dt>Amplitude (%)</dt>
+            <dd>Semi-amplitude of lightcurve phase folded and binned at stated period. Percentage is relative to the median flux level. Zero for Aperiodic systems.</dd>
+            <dt>Proposal Information</dt>
+            <dd>If object is from a variable star related proposal: Proposal Number, and variable star type in brackets.</dd>
+        </dl>
     </div>
 </div>
 

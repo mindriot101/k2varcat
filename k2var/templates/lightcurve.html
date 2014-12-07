@@ -1,34 +1,37 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="container">
-    <div class="page-header">
-        <h1>Object: {{ epicid }}</h1>
+<div class="page-header">
+    <h1>Object: {{ epicid }}</h1>
+</div>
+
+<div class="row-fluid">
+    <ul class="list-inline">
+        <li>
+            {%- if app_root is none -%}
+            <a href="/download/k2var-{{ epicid }}.fits" class="btn btn-primary" role="button">
+            {%- else -%}
+            <a href="{{ app_root }}/download/k2var-{{ epicid }}.fits" class="btn btn-primary" role="button">
+                {%- endif -%}
+                <span class="glyphicon glyphicon-download" aria-hidden="true"></span> Download fits file</a>
+        </li>
+        <li><a href="{{ stsci_url }}">STSCI</a></li>
+        <li><a href="{{ url_for('index') }}">Back to the catalogue</a></li>
+    </ul>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <h2>Plots</h2>
     </div>
+</div>
 
-    <div class="row">
-        <a href="{{ stsci_url }}">STSCI</a>
-        <a href="{{ url_for('index') }}">Home</a>
-        {% if app_root is none %}
-            <a href="/download/k2var-{{ epicid }}.fits" class="btn btn-primary" role="button">Download fits file</a>
-        {% else %}
-            <a href="{{ app_root }}/download/k2var-{{ epicid }}.fits" class="btn btn-primary" role="button">Download fits file</a>
-        {% endif %}
-    </div>
+{{ lightcurves|safe }}
 
-    <div class="row">
-        <div class="col-md-12">
-            <h2>Plots</h2>
-        </div>
-    </div>
-
-    {{ lightcurves|safe }}
-
-    <div id="parameters" class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <h2>Parameters</h2>
-            {{ parameters_table|safe }}
-        </div>
+<div id="parameters" class="row">
+    <div class="col-md-8 col-md-offset-2">
+        <h2>Parameters</h2>
+        {{ parameters_table|safe }}
     </div>
 </div>
 {% endblock content %}
