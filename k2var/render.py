@@ -19,6 +19,8 @@ BASEDIR = path.realpath(
     path.join(
         path.dirname(__file__)))
 
+SITE_ROOT = '/build/'
+
 
 def ensure_dir(p):
     if path.isdir(p):
@@ -64,7 +66,9 @@ class KeplerObject(object):
         logger.info('Rendering %s', self.epicid)
 
         with open(self.output_filename(object_dir), 'w') as outfile:
-            outfile.write(self.template('lightcurve.html').render(kepler_object=self))
+            outfile.write(self.template('lightcurve.html').render(
+                root=SITE_ROOT,
+                kepler_object=self))
 
     @property
     def lightcurves(self):
