@@ -2,7 +2,7 @@ from flask import Flask, render_template, abort
 from os import path
 
 from .data_store import Database
-from .rendering import LightcurvePlotter
+from .rendering import LightcurvePlotter, TableRenderer
 
 BASE_DIR = path.realpath(
     path.join(
@@ -34,10 +34,10 @@ def index():
 def render_epic_id(epicid):
     meta = database.get(epicid)
     filename = data_file_path(epicid)
-    plotter = LightcurvePlotter(meta, filename)
     return render_template('lightcurve.html',
                            epicid=epicid,
-                           renderer=plotter)
+                           parameters_table=TableRenderer(meta).render(),
+                           lightcurves=LightcurvePlotter(meta, filename).render())
 
 def main():
     app.run(debug=True)

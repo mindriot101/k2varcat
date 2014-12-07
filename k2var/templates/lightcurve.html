@@ -17,12 +17,12 @@
         </div>
     </div>
 
-    {{ renderer.lightcurves() }}
+    {{ lightcurves|safe }}
 
     <div id="parameters" class="row">
         <div class="col-md-8 col-md-offset-2">
             <h2>Parameters</h2>
-            {{ renderer.parameters_table()|safe }}
+            {{ parameters_table|safe }}
         </div>
     </div>
 </div>

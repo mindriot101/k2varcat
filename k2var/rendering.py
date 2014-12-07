@@ -52,8 +52,5 @@ class LightcurvePlotter(object):
         self.meta = meta
         self.filename = filename
 
-    def lightcurves(self):
+    def render(self):
         return 'Lightcurves'
-
-    def parameters_table(self):
-        return TableRenderer(self.meta).render()
