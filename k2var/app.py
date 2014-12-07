@@ -1,18 +1,22 @@
 from flask import Flask, render_template, abort
 from os import path
 
+from .data_store import Database
+from .plotting import LightcurvePlotter
+
 BASE_DIR = path.realpath(
     path.join(
         path.dirname(__file__), '..'))
 
 DATA_DIR = path.realpath(
     path.join(
-        path.dirname(__file__),
-        'data'))
+        BASE_DIR, 'data'))
 
 app = Flask(__name__)
 app.config['FREEZER_BASE_URL'] = 'http://localhost/'
 app.config['FREEZER_DESTINATION'] = path.join(BASE_DIR, 'build')
+
+database = Database()
 
 
 def data_file_path(epicid):
@@ -28,8 +32,12 @@ def index():
 
 @app.route('/objects/<string:epicid>.html')
 def render_epic_id(epicid):
+    meta = database.get(epicid)
     filename = data_file_path(epicid)
-    return render_template('lightcurve.html', epicid=epicid)
+    plotter = LightcurvePlotter(meta, filename)
+    return render_template('lightcurve.html',
+                           epicid=epicid,
+                           data=plotter)
 
 
 if __name__ == '__main__':

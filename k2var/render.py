@@ -15,7 +15,8 @@ def render_epic_id():
                                 fieldnames=['epicid', 'type',
                                        'range', 'period', 'amplitude'])
         for row in reader:
-            yield {'epicid': str(row['epicid'])}
+            if row['epicid'] == '202059229':
+                yield {'epicid': str(row['epicid'])}
 
 def main():
     freezer.freeze()
