@@ -1,13 +1,13 @@
 <div class="row">
     <div id="raw-plot" class="col-md-4">
-        {{ raw }}
+        {{ raw|safe }}
     </div>
 
     <div id="detrended-plot" class="col-md-4">
-        {{ detrended }}
+        {{ detrended|safe }}
     </div>
 
     <div id="phase-folded-plot" class="col-md-4">
-        {{ folded }}
+        {{ folded|safe }}
     </div>
 </div>
