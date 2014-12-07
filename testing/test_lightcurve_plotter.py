@@ -1,4 +1,4 @@
-from k2var.plotting import LightcurvesPlotter
+from k2var.rendering import LightcurvesPlotter
 import jinja2
 
 def test_raw_lightcurve():
