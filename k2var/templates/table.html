@@ -1,0 +1,16 @@
+<table class="table">
+    <thead>
+        <tr>
+            {% for key in keys %}
+            <th>{{ key|capitalize }}</th>
+            {% endfor %}
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            {% for value in values %}
+            <td>{{ value }}</td>
+            {% endfor %}
+        </tr>
+    </tbody>
+</table>
