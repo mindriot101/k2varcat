@@ -1,7 +1,7 @@
 // i'm thinking this is 1.2.0 as it works with the new google spreadsheets, but 1.1.0 does not...
 // https://github.com/jsoma/tabletop/blob/15cd1aec85a8d3dd88d7d64cd28c48bf789f9f70/src/tabletop.js
 
-(function(global) {
+render_table = function(global, app_root) {
     "use strict";
 
     var inNodeJS = false;
@@ -432,7 +432,7 @@ for(i = 0, ilen = toLoad.length; i < ilen; i++) {
                       element[ column_name ] = +cell.$t;
                   else
                       if (column_name === "epicid") {
-                          element[column_name] = '<a href="/objects/' + cell.$t + '.html">' + cell.$t + '</a>';
+                          element[column_name] = '<a href="' + app_root + '/objects/' + cell.$t + '.html">' + cell.$t + '</a>';
                       } else {
                           element[column_name] = cell.$t;
                       }
@@ -480,4 +480,4 @@ for(i = 0, ilen = toLoad.length; i < ilen; i++) {
       global.Tabletop = Tabletop;
   }
 
-})(this);
+};
