@@ -13,19 +13,29 @@ from .data_store import DataStore
 logging.basicConfig(level=logging.DEBUG, format='%(asctime)s|%(name)s|%(levelname)s|%(message)s')
 logger = logging.getLogger(__name__)
 
-sns.set(style='white', rc={'lines.markeredgewidth': 0.01})
-
+sns.set(style='white', rc={'lines.markeredgewidth': 0.5})
 
 
 class Plotter(object):
 
-    def __init__(self, x, y, yerr):
+    colours = sns.color_palette('gray', n_colors=5)
+
+    def __init__(self, x, y, yerr, xlabel=None, ylabel=None):
         self.x, self.y, self.yerr = x, y, yerr
+        self.xlabel, self.ylabel = xlabel, ylabel
         self.fig = self.figure()
 
     def figure(self):
         fig, axis = plt.subplots()
-        axis.errorbar(self.x, self.y, self.yerr, ls='None', marker='.')
+        axis.errorbar(self.x, self.y, self.yerr, ls='None', marker='.',
+                      color=self.colours[0], alpha=0.3, capsize=0.)
+        axis.plot(self.x, self.y, ls='None', marker='.',
+                      color=self.colours[0])
+        if self.xlabel:
+            axis.set_xlabel(self.xlabel)
+
+        if self.ylabel:
+            axis.set_ylabel(self.ylabel)
         return fig
 
     def add_amplitude_markers(self, amplitude):
@@ -75,7 +85,9 @@ class LightcurvePlotter(object):
         return Plotter(
             self.data_store['time'],
             self.data_store['aptflux'],
-            self.data_store['aptflux_err']).render()
+            self.data_store['aptflux_err'],
+            xlabel=r'BJD',
+        ).render()
 
     def detrended_lightcurve(self):
         yerr = (self.data_store['detflux'] * (self.data_store['aptflux_err'] /
@@ -83,7 +95,10 @@ class LightcurvePlotter(object):
         return Plotter(
             self.data_store['time'],
             self.data_store['detflux'],
-            yerr).render()
+            yerr,
+            xlabel='BJD',
+            ylabel='Detrended flux',
+        ).render()
 
     def phase_folded(self):
         period = self.meta['period']
@@ -95,6 +110,8 @@ class LightcurvePlotter(object):
                 phase,
                 self.data_store['detflux'],
                 yerr,
+                xlabel='Orbital phase',
+                ylabel='Detrended flux',
             ).add_amplitude_markers(self.meta['amplitude']).render()
         else:
             return EmptyPlot().render()
