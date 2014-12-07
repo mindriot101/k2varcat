@@ -2,7 +2,7 @@ from flask import Flask, render_template, abort
 from os import path
 
 from .data_store import Database
-from .plotting import LightcurvePlotter
+from .rendering import LightcurvePlotter
 
 BASE_DIR = path.realpath(
     path.join(

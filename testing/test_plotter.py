@@ -1,2 +1,2 @@
-from k2var.plotting import Plotter
+from k2var.rendering import Plotter
 
