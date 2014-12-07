@@ -8,7 +8,7 @@ setup(
     install_requires=['numpy', 'fitsio', 'matplotlib', 'seaborn',
                       'flask', 'frozen-flask'],
     entry_points={'console_scripts': [
-        'k2var-render = k2var.render:main',
+        'k2var-freeze = k2var.freeze:main',
         'k2var-serve = k2var.app:main',
     ]},
     packages=['k2var'])
