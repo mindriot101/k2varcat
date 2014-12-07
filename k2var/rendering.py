@@ -21,40 +21,48 @@ class Plotter(object):
 
     def __init__(self, x, y, yerr):
         self.x, self.y, self.yerr = x, y, yerr
+        self.fig = self.figure()
 
     def figure(self):
         fig, axis = plt.subplots()
         axis.errorbar(self.x, self.y, self.yerr, ls='None', marker='.')
         return fig
 
+    def add_amplitude_markers(self, amplitude):
+        ax = self.fig.get_axes()[0]
+        ax.axhline(1. + amplitude / 100., color=self.colours[1], ls=':')
+        ax.axhline(1. - amplitude / 100., color=self.colours[1], ls=':')
+        return self
+
     def serialised(self):
-        figure = self.figure()
         s = StringIO.StringIO()
-        figure.savefig(s, bbox_inches='tight', format='png')
+        self.fig.savefig(s, bbox_inches='tight', format='png')
         return s.getvalue().encode('base64').strip()
 
     def render(self):
         return render_template('image.html', data=self.serialised())
+
 
 class EmptyPlot(Plotter):
 
     '''Class for when no periodicity exists'''
 
     def __init__(self):
-        pass
+        self.fig, _ = plt.subplots()
 
     def figure(self):
-        fig, ax = plt.subplots()
-        return fig
+        return self.fig
 
 
 class TableRenderer(object):
+
     def __init__(self, meta):
         self.meta = meta
 
     def render(self):
         keys, values = zip(*self.meta.items())
         return render_template('table.html', keys=keys, values=values)
+
 
 class LightcurvePlotter(object):
 
@@ -86,10 +94,10 @@ class LightcurvePlotter(object):
             return Plotter(
                 phase,
                 self.data_store['detflux'],
-                yerr).render()
+                yerr,
+            ).add_amplitude_markers(self.meta['amplitude']).render()
         else:
             return EmptyPlot().render()
-
 
     def render(self):
         return render_template('plots.html',
