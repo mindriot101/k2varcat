@@ -1,6 +1,17 @@
 import fitsio
 from os import path
 import csv
+from .paths import BASE_DIR
+
+DATA_DIR = path.realpath(
+    path.join(
+        BASE_DIR, 'data'))
+
+
+def data_file_path(epicid):
+    return path.join(DATA_DIR,
+                     'ktwo{epicid}-c00_lpd-targ_X_D.fits'.format(
+                         epicid=epicid))
 
 
 class DataStore(object):

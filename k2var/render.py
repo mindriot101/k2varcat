@@ -2,11 +2,12 @@ from k2var.app import app
 from flask_frozen import Freezer
 from os import path
 
-from .data_store import Database
+from .data_store import Database, data_file_path
 
 db = Database()
 
 freezer = Freezer(app)
+
 
 @freezer.register_generator
 def render_epic_id():
@@ -14,7 +15,6 @@ def render_epic_id():
         if epicid == '202059229':
             yield {'epicid': str(epicid)}
 
+
 def main():
     freezer.freeze()
-
-
