@@ -43,4 +43,3 @@ class Database(object):
     def __iter__(self):
         for epicid in self.data:
             yield epicid
-
