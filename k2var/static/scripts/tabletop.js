@@ -432,7 +432,7 @@
             element[ column_name ] = +cell.$t;
           else
           if (column_name === "epicid") {
-			element[ column_name ] = '<a href=https://archive.stsci.edu/k2/preview.php?dsn=KTWO'+cell.$t+'-C00&type=LC">'+ cell.$t + '</a>';
+            element[column_name] = '<a href="/objects/' + cell.$t + '.html">' + cell.$t + '</a>';
           } else {
           	element[column_name] = cell.$t;
           }

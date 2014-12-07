@@ -12,6 +12,11 @@ app.config['FREEZER_DESTINATION'] = path.join(BASE_DIR, 'build')
 database = Database()
 
 
+def build_stsci_url(epicid):
+    return "https://archive.stsci.edu/k2/preview.php?dsn=KTWO{epicid}-C00&type=LC".format(
+        epicid=epicid)
+
+
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -24,6 +29,7 @@ def render_epic_id(epicid):
     return render_template('lightcurve.html',
                            filename=filename,
                            epicid=epicid,
+                           stsci_url=build_stsci_url(epicid),
                            parameters_table=TableRenderer(meta).render(),
                            lightcurves=LightcurvePlotter(meta, filename).render())
 
