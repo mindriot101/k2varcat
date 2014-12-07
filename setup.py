@@ -9,5 +9,6 @@ setup(
                       'flask', 'frozen-flask'],
     entry_points={'console_scripts': [
         'k2var-render = k2var.render:main',
+        'k2var-serve = k2var.app:main',
     ]},
     packages=['k2var'])
