@@ -1,4 +1,4 @@
-from flask import Flask, render_template, abort
+from flask import Flask, render_template, abort, send_from_directory
 from os import path
 
 from .data_store import Database
@@ -35,9 +35,17 @@ def render_epic_id(epicid):
     meta = database.get(epicid)
     filename = data_file_path(epicid)
     return render_template('lightcurve.html',
+                           filename=filename,
                            epicid=epicid,
                            parameters_table=TableRenderer(meta).render(),
                            lightcurves=LightcurvePlotter(meta, filename).render())
+
+@app.route('/download/k2var-<string:epicid>.fits')
+def send_file(epicid):
+    filename = data_file_path(epicid)
+    return send_from_directory(
+        path.dirname(filename),
+        path.basename(filename))
 
 def main():
     app.run(debug=True)
