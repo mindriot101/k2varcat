@@ -16,8 +16,10 @@
     {{ kepler_object.lightcurves }}
 
     <div id="parameters" class="row">
-        <h2>Parameters</h2>
-        {{ kepler_object.parameters_table }}
+        <div class="col-md-8 col-md-offset-2">
+            <h2>Parameters</h2>
+            {{ kepler_object.parameters_table }}
+        </div>
     </div>
 </div>
 {% endblock content %}
