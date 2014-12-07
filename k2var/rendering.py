@@ -21,7 +21,7 @@ DETFLUX_LABEL = r'Detrended flux'
 
 class Plotter(object):
 
-    colours = sns.color_palette('gray', n_colors=5)
+    colours = sns.color_palette(n_colors=5)
 
     def __init__(self, x, y, yerr, xlabel=None, ylabel=None, ylims=None):
         self.x, self.y, self.yerr = x, y, yerr
