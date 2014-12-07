@@ -6,7 +6,7 @@ The site is hosted [here](http://deneb.astro.warwick.ac.uk/phrlbj/k2varcat). Thi
 Site
 ----
 
-The site is static html rendered by [this render script](https://github.com/mindriot101/k2varcat/blob/master/render.py) into the `build` directory. This name is configurable at the command line.
+The site is static html rendered by [Frozen-Flask](http://pythonhosted.org/Frozen-Flask/) into the `build` directory. This name is configurable at the command line.
 
 Each image is embedded in the page directly for simplicity.
 
