@@ -13,7 +13,10 @@ from .data_store import DataStore
 logging.basicConfig(level=logging.DEBUG, format='%(asctime)s|%(name)s|%(levelname)s|%(message)s')
 logger = logging.getLogger(__name__)
 
-sns.set(style='white', rc={'lines.markeredgewidth': 0.5})
+sns.set(context='poster', style='white', rc={'lines.markeredgewidth': 0.5})
+
+PHASE_LABEL = r'Orbital phase'
+DETFLUX_LABEL = r'Detrended flux'
 
 
 class Plotter(object):
@@ -52,6 +55,7 @@ class Plotter(object):
 
     def serialised(self):
         s = StringIO.StringIO()
+        self.fig.tight_layout()
         self.fig.savefig(s, bbox_inches='tight', format='png')
         return s.getvalue().encode('base64').strip()
 
@@ -65,6 +69,12 @@ class EmptyPlot(Plotter):
 
     def __init__(self):
         self.fig, _ = plt.subplots()
+        self.add_labels()
+
+    def add_labels(self):
+        ax = self.fig.get_axes()[0]
+        ax.set_xlabel(PHASE_LABEL)
+        ax.set_ylabel(DETFLUX_LABEL)
 
     def figure(self):
         return self.fig
@@ -103,7 +113,7 @@ class LightcurvePlotter(object):
             self.data_store['detflux'],
             yerr,
             xlabel='BJD',
-            ylabel='Detrended flux',
+            ylabel=DETFLUX_LABEL,
             ylims=self.range_ylims(),
         ).render()
 
@@ -117,8 +127,8 @@ class LightcurvePlotter(object):
                 phase,
                 self.data_store['detflux'],
                 yerr,
-                xlabel='Orbital phase',
-                ylabel='Detrended flux',
+                xlabel=PHASE_LABEL,
+                ylabel=DETFLUX_LABEL,
                 ylims=self.range_ylims(),
             ).add_amplitude_markers(self.meta['amplitude']).render()
         else:
