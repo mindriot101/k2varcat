@@ -40,7 +40,11 @@
 <script src="{{ url_for('static', filename='scripts/data-tables-bootstrap.js') }}"></script>
 <script src="{{ url_for('static', filename='scripts/bootstrap-dropdown.js') }}"></script>
 <script type="text/javascript">
-    render_table(this, "/phsnag");
+    {% if app_root is none %}
+        render_table(this, "");
+    {% else %}
+        render_table(this, "{{ app_root }}");
+    {% endif %}
 </script>
 
 <!-- begin analytics -->

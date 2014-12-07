@@ -6,10 +6,6 @@ from .data_store import Database, data_file_path
 from .rendering import LightcurvePlotter, TableRenderer
 
 app = Flask(__name__)
-app.config['APPLICATION_ROOT'] = '/phsnag/'
-app.config['FREEZER_BASE_URL'] = app.config['APPLICATION_ROOT']
-app.config['FREEZER_DESTINATION'] = path.join(BASE_DIR, 'build')
-
 database = Database()
 
 
@@ -20,7 +16,8 @@ def build_stsci_url(epicid):
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    return render_template('index.html',
+                           app_root=app.config['APPLICATION_ROOT'])
 
 
 @app.route('/objects/<string:epicid>.html')

@@ -9,7 +9,11 @@
     <div class="row">
         <a href="{{ stsci_url }}">STSCI</a>
         <a href="{{ url_for('index') }}">Home</a>
-        <a href="{{ app_root }}/download/k2var-{{ epicid }}.fits" class="btn btn-primary" role="button">Download fits file</a>
+        {% if app_root is none %}
+            <a href="/download/k2var-{{ epicid }}.fits" class="btn btn-primary" role="button">Download fits file</a>
+        {% else %}
+            <a href="{{ app_root }}/download/k2var-{{ epicid }}.fits" class="btn btn-primary" role="button">Download fits file</a>
+        {% endif %}
     </div>
 
     <div class="row">
