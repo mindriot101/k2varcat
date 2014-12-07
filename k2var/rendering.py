@@ -20,11 +20,9 @@ sns.set(style='white', rc={'lines.markeredgewidth': 0.01})
 class Plotter(object):
 
     def __init__(self, x, y, yerr):
-        logger.debug("Creating plotter object")
         self.x, self.y, self.yerr = x, y, yerr
 
     def figure(self):
-        logger.debug("Building figure object")
         fig, axis = plt.subplots()
         axis.errorbar(self.x, self.y, self.yerr, ls='None', marker='.')
         return fig

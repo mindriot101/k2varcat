@@ -1,7 +1,6 @@
 from k2var.app import app
 from flask_frozen import Freezer
 from os import path
-import csv
 
 from .data_store import Database
 
