@@ -27,7 +27,7 @@ def send_file():
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--root', default='', help='Application root')
+    parser.add_argument('-r', '--root', default='', help='Application root. For phsnag: /phsnag/')
     parser.add_argument('-o', '--output-dir', default=None, required=False)
     args = parser.parse_args()
 
