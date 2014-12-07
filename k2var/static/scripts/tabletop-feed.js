@@ -9,12 +9,25 @@ jqueryNoConflict(document).ready(function(){
 
 // pull data from google spreadsheet
 function initializeTabletopObject(dataSpreadsheet){
+    var timer = startProgress();
     Tabletop.init({
         key: dataSpreadsheet,
-        callback: writeTableWith,
+        callback: function(dataSource) { writeTableWith(dataSource, timer); },
         simpleSheet: true,
         debug: false
     });
+}
+
+function startProgress() {
+    var $bar = $('#progress-bar');
+    return setInterval(function() {
+        updateProgress($bar.width() + 40);
+    }, 300);
+}
+
+function updateProgress(value) {
+    var $bar = $('#progress-bar');
+    $bar.width(value);
 }
 
 // create table headers
@@ -37,19 +50,25 @@ function createTableColumns(){
 }
 
 // create the table container and object
-function writeTableWith(dataSource){
+function writeTableWith(dataSource, timer){
+    $('#progress-bar').css('width', "100%");
+    clearInterval(timer);
 
-    jqueryNoConflict('#demo').html('<table cellpadding="0" cellspacing="0" border="0" class="display table table-bordered table-striped" id="data-table-container"></table>');
+    // Add delay to make it look nice
+    setTimeout(function() {
+        jqueryNoConflict('#demo').html('<table cellpadding="0" cellspacing="0" border="0" class="display table table-bordered table-striped" id="data-table-container"></table>');
 
-    var oTable = jqueryNoConflict('#data-table-container').dataTable({
-		'sPaginationType': 'bootstrap',
-		'iDisplayLength': 25,
-        'aaData': dataSource,
-        'aoColumns': createTableColumns(),
-        'oLanguage': {
-            'sLengthMenu': '_MENU_ records per page'
-        }
-    });
+        var oTable = jqueryNoConflict('#data-table-container').dataTable({
+            'sPaginationType': 'bootstrap',
+            'iDisplayLength': 25,
+            'aaData': dataSource,
+            'aoColumns': createTableColumns(),
+            'oLanguage': {
+                'sLengthMenu': '_MENU_ records per page'
+            }
+        });
+    }, 200);
+
 };
 
 //define two custom functions (asc and desc) for string sorting
