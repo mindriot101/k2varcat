@@ -10,12 +10,16 @@ import shutil
 import os
 import csv
 
+from .plotting import LightcurvesPlotter
+
 logging.basicConfig(level=logging.DEBUG, format='%(asctime)s|%(name)s|%(levelname)s|%(message)s')
 logger = logging.getLogger(__name__)
 
 BASEDIR = path.realpath(
     path.join(
         path.dirname(__file__)))
+
+SITE_ROOT = '/build/'
 
 
 def ensure_dir(p):
@@ -62,7 +66,18 @@ class KeplerObject(object):
         logger.info('Rendering %s', self.epicid)
 
         with open(self.output_filename(object_dir), 'w') as outfile:
-            outfile.write(self.template('lightcurve.html').render(kepler_object=self))
+            outfile.write(self.template('lightcurve.html').render(
+                root=SITE_ROOT,
+                kepler_object=self))
+
+    @property
+    def lightcurves(self):
+        plotter = LightcurvesPlotter(
+            self.env,
+            self.data_file,
+            self.period,
+            self.amplitude)
+        return plotter.render()
 
     @property
     def parameters_table(self):
