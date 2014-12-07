@@ -16,5 +16,12 @@ def render_epic_id():
             yield {'epicid': str(epicid)}
 
 
+@freezer.register_generator
+def send_file():
+    for epicid in db:
+        if path.isfile(data_file_path(epicid)):
+            yield {'epicid': str(epicid)}
+
+
 def main():
     freezer.freeze()
