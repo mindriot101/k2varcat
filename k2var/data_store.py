@@ -33,6 +33,8 @@ class Database(object):
                                                 'range', 'period', 'amplitude'])
             for row in reader:
                 out[row['epicid']] = {
+                    'type': row['type'],
+                    'range': float(row['range']),
                     'period': float(row['period']),
                     'amplitude': float(row['amplitude']),
                 }
