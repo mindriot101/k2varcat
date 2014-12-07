@@ -12,7 +12,7 @@ freezer = Freezer(app)
 @freezer.register_generator
 def render_epic_id():
     for epicid in db:
-        if epicid == '202059229':
+        if path.isfile(data_file_path(epicid)):
             yield {'epicid': str(epicid)}
 
 
