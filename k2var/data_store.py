@@ -37,3 +37,8 @@ class Database(object):
                     'amplitude': float(row['amplitude']),
                 }
         return out
+
+    def __iter__(self):
+        for epicid in self.data:
+            yield epicid
+
