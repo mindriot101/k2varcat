@@ -130,7 +130,7 @@ class LightcurvePlotter(object):
                 xlabel=PHASE_LABEL,
                 ylabel=DETFLUX_LABEL,
                 ylims=self.range_ylims(),
-            ).add_amplitude_markers(self.meta['amplitude']).render()
+            ).render()
         else:
             return EmptyPlot().render()
 
