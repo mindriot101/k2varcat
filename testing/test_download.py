@@ -13,3 +13,8 @@ def download_url():
 def test_download_link_status(client, download_url):
     print 'Download url: {}'.format(download_url)
     assert client.get(download_url).status_code == 200
+
+
+def test_download_file(client, download_url):
+    res = client.get(download_url)
+    assert res.content_type == 'application/octet-stream'
