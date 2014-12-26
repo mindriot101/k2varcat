@@ -10,12 +10,8 @@
 <div class="row-fluid">
     <ul class="list-inline">
         <li>
-            {%- if app_root is none -%}
-            <a href="/download/k2var-{{ epicid }}.fits" class="btn btn-primary" role="button">
-            {%- else -%}
-            <a href="{{ app_root }}/download/k2var-{{ epicid }}.fits" class="btn btn-primary" role="button">
-                {%- endif -%}
-                <span class="glyphicon glyphicon-download" aria-hidden="true"></span> Download fits file</a>
+            <a href="{{ url_for('download', epicid=epicid) }}" class="btn btn-primary" role="button">
+            <span class="glyphicon glyphicon-download" aria-hidden="true"></span> Download fits file</a>
         </li>
         <li><a href="{{ stsci_url }}">STSCI</a></li>
         <li><a href="{{ url_for('index') }}">Back to the catalogue</a></li>
