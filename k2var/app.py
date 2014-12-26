@@ -35,7 +35,7 @@ def render_epic_id(epicid):
 
 @app.route('/download/<path:filename>')
 def download(filename):
-    return ''
+    return send_from_directory(path.join(BASE_DIR, 'data'), filename)
 
 
 def main():
