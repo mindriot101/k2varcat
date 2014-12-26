@@ -9,4 +9,4 @@ DATA_DIR = path.realpath(
         BASE_DIR, 'data'))
 
 def lightcurve_filename(epicid):
-    return 'k2var-{epicid}.fits'.format(epicid=epicid)
+    return 'ktwo{epicid}-c00_lpd-targ_X_D.fits'.format(epicid=epicid)

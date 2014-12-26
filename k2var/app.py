@@ -1,7 +1,7 @@
 from flask import Flask, render_template, abort, send_from_directory
 from os import path
 
-from .paths import BASE_DIR, DATA_DIR
+from .paths import BASE_DIR, DATA_DIR, lightcurve_filename
 from .data_store import Database, data_file_path
 from .rendering import LightcurvePlotter, TableRenderer
 
@@ -35,12 +35,11 @@ def render_epic_id(epicid):
 
 @app.route('/download/<epicid>')
 def download(epicid):
-    filename = path.join(DATA_DIR, 'ktwo{epicid}-c00_lpd-targ_X_D.fits'.format(
-        epicid=epicid))
-    if path.isfile(filename):
-        return send_from_directory(DATA_DIR, path.basename(filename))
-    else:
+    filename = path.join(DATA_DIR, lightcurve_filename(epicid))
+    if not path.isfile(filename):
         abort(404)
+    else:
+        return send_from_directory(DATA_DIR, path.basename(filename))
 
 
 def main():
