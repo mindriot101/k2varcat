@@ -1,11 +1,18 @@
 import pytest
 import glob
 from os import path
+from flask import url_for
+
+
+@pytest.fixture(scope='session')
+def epicid():
+    return '202059221'
 
 
 @pytest.fixture(scope='module')
-def download_url():
-    download_files = glob.glob('data/ktwo202059221-c00_lpd-*.fits')
+def download_url(epicid):
+    download_files = glob.glob('data/ktwo{epicid}-c00_lpd-*.fits'.format(
+        epicid=epicid))
     chosen_file = path.basename(download_files[0])
     return '/download/{}'.format(chosen_file)
 
