@@ -33,7 +33,7 @@ def render_epic_id(epicid):
                            lightcurves=LightcurvePlotter(meta, filename).render())
 
 
-@app.route('/download/<epicid>')
+@app.route('/download/k2var-<epicid>.fits')
 def download(epicid):
     filename = path.join(DATA_DIR, lightcurve_filename(epicid))
     if not path.isfile(filename):
