@@ -17,11 +17,10 @@ def download_url(epicid):
     return '/download/{}'.format(chosen_file)
 
 
-def test_download_link_status(client, download_url):
-    print 'Download url: {}'.format(download_url)
-    assert client.get(download_url).status_code == 200
+def test_download_link_status(client, epicid):
+    assert client.get(url_for('download', epicid=epicid)).status_code == 200
 
 
-def test_download_file(client, download_url):
-    res = client.get(download_url)
+def test_download_file(client, epicid):
+    res = client.get(url_for('download', epicid=epicid))
     assert res.content_type == 'application/octet-stream'

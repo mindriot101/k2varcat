@@ -33,9 +33,9 @@ def render_epic_id(epicid):
                            lightcurves=LightcurvePlotter(meta, filename).render())
 
 
-@app.route('/download/<path:filename>')
-def download(filename):
-    return send_from_directory(path.join(BASE_DIR, 'data'), filename)
+@app.route('/download/<epicid>')
+def download(epicid):
+    return ''
 
 
 def main():
