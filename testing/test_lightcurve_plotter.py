@@ -1,9 +1,29 @@
-from k2var.rendering import LightcurvesPlotter
+from k2var.rendering import LightcurvePlotter
 import jinja2
+import mock
 
-def test_raw_lightcurve():
-    env = jinja2.Environment(loader=jinja2.PackageLoader('k2var', 'templates'))
-    l = LightcurvesPlotter(env, 'data/ktwo202059221-c00_lpd-targ_X_D.fits',
-                           2., 0.2)
-    assert l.raw_lightcurve()
 
+@mock.patch('k2var.rendering.Plotter', autospec=True)
+@mock.patch('k2var.rendering.DataStore', autospec=True)
+def test_raw_lightcurve(mock_data_store, mock_plotter):
+    plot_result = mock_plotter.return_value.render
+    meta = mock.MagicMock()
+    filename = mock.MagicMock()
+
+    plotter = LightcurvePlotter(meta, filename)
+    plotter.raw_lightcurve()
+
+    plot_result.assert_called_once_with()
+
+
+@mock.patch('k2var.rendering.Plotter', autospec=True)
+@mock.patch('k2var.rendering.DataStore', autospec=True)
+def test_detrended_lightcurve(mock_data_store, mock_plotter):
+    plot_result = mock_plotter.return_value.render
+    meta = mock.MagicMock()
+    filename = mock.MagicMock()
+
+    plotter = LightcurvePlotter(meta, filename)
+    plotter.detrended_lightcurve()
+
+    plot_result.assert_called_once_with()
