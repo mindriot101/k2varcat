@@ -10,6 +10,13 @@ The site is static html rendered by [Frozen-Flask](http://pythonhosted.org/Froze
 
 Each image is embedded in the page directly for simplicity.
 
+Deployment
+----------
+
+To deploy the site, run `fab -H <dest> deploy`, which sshs into the machine `<dest>`, renders the code and copies the built directory to `~/www`.
+
+Note this encodes some hidden variables such as the location of the repository on `<dest>`, and the destination of where the code should be put. In a better version of the script I will add command line arguments and turn it into a proper script.
+
 Authors
 -------
 
