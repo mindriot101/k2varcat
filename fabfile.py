@@ -21,5 +21,19 @@ def update_repository():
 
 @task
 def install():
-    run('k2var-freeze --root "/phsnag/"')
+    build(root='/phsnag/')
     run('rsync -va build/ ~/www/')
+
+def build(root=None):
+    if root is not None:
+        local('k2var-freeze --root "{root}"'.format(root=root))
+    else:
+        local('k2var-freeze')
+
+@task
+def package():
+    with lcd('~/work/Other/K2VarCat'):
+        with prefix('source ~/anaconda/bin/activate ./venv'):
+            build()
+        with lcd('~/work/Other/K2VarCat/build'):
+            local('tar -zcvf ../build.tar.gz .')
