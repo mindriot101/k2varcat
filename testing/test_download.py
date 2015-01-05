@@ -4,11 +4,6 @@ from os import path
 from flask import url_for
 
 
-@pytest.fixture(scope='session')
-def epicid():
-    return '202059221'
-
-
 @pytest.fixture(scope='module')
 def download_url(epicid):
     download_files = glob.glob('data/ktwo{epicid}-c00_lpd-*.fits'.format(
