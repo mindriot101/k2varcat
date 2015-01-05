@@ -18,4 +18,4 @@ def test_download_link_status(client, epicid):
 
 def test_download_file(client, epicid):
     res = client.get(url_for('download', epicid=epicid))
-    assert res.content_type == 'application/octet-stream'
+    assert res.content_type in {'application/octet-stream', 'image/x-fits'}
