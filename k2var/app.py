@@ -43,6 +43,9 @@ def download(epicid):
 
 
 def main():
+    if not path.isdir(DATA_DIR):
+        raise RuntimeError("No data directory found at {dirname}. Ensure this exists"
+                           .format(dirname=DATA_DIR))
     app.run(debug=True)
 
 
