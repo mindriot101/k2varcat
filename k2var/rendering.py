@@ -59,6 +59,7 @@ class Plotter(object):
         s = StringIO.StringIO()
         self.fig.tight_layout()
         self.fig.savefig(s, bbox_inches='tight', format='png')
+        plt.close(self.fig)
         return s.getvalue().encode('base64').strip()
 
     def render(self):
