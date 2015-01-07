@@ -34,6 +34,6 @@ def build(root=None):
 def package():
     with lcd('~/work/Other/K2VarCat'):
         with prefix('source ~/anaconda/bin/activate ./venv'):
-            build()
+            build(root='/phrlbj/k2varcat/')
         with lcd('~/work/Other/K2VarCat/build'):
             local('tar -zcvf ../build.tar.gz .')
