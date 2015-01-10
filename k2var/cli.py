@@ -12,9 +12,25 @@ logging.basicConfig(level=logging.DEBUG, format='%(asctime)s|%(name)s|%(levelnam
 logger = logging.getLogger(__name__)
 
 
+def render_static(args):
+    logger.info('Rendering static files')
+
+
+def render_index_page(args):
+    logger.info('Rendering index page')
+
+
+def render_detail_page(epicid, args):
+    logger.info('Rendering detail page for object %s', epicid)
+
+
 def render(args):
     logger.debug('Arguments: %s', args)
     db = Database()
+    render_static(args)
+    render_index_page(args)
+    for epicid in db.valid_epic_ids():
+        render_detail_page(epicid, args)
 
 
 def main():
