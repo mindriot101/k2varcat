@@ -7,6 +7,7 @@ from os import path
 import logging
 
 from .data_store import Database, data_file_path
+from .paths import BASE_DIR
 
 logging.basicConfig(level=logging.DEBUG, format='%(asctime)s|%(name)s|%(levelname)s|%(message)s')
 logger = logging.getLogger(__name__)
@@ -34,7 +35,8 @@ def render(args):
 
 
 def main():
+    default_output = path.join(BASE_DIR, 'build')
     parser = argparse.ArgumentParser()
     parser.add_argument('-r', '--root', default='', help='Application root. For phsnag: /phsnag/')
-    parser.add_argument('-o', '--output-dir', default=None, required=False)
+    parser.add_argument('-o', '--output-dir', default=default_output, required=False)
     render(parser.parse_args())
