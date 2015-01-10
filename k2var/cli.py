@@ -4,11 +4,16 @@
 
 import argparse
 from os import path
+import logging
 
 from .data_store import Database, data_file_path
 
+logging.basicConfig(level=logging.DEBUG, format='%(asctime)s|%(name)s|%(levelname)s|%(message)s')
+logger = logging.getLogger(__name__)
+
 
 def render(args):
+    logger.debug('Arguments: %s', args)
     db = Database()
 
 
