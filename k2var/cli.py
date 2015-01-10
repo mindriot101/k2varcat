@@ -3,14 +3,17 @@
 
 
 import argparse
+from os import path
+
+from .data_store import Database, data_file_path
 
 
-def main(args):
-    pass
+def render(args):
+    db = Database()
 
 
-if __name__ == '__main__':
+def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('-r', '--root', default='', help='Application root. For phsnag: /phsnag/')
     parser.add_argument('-o', '--output-dir', default=None, required=False)
-    main(parser.parse_args())
+    render(parser.parse_args())

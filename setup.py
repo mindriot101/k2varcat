@@ -8,7 +8,6 @@ setup(
     install_requires=['numpy', 'astropy', 'matplotlib', 'seaborn',
                       'flask', 'frozen-flask'],
     entry_points={'console_scripts': [
-        'k2var-freeze = k2var.freeze:main',
-        'k2var-serve = k2var.app:main',
+        'k2var-build = k2var.cli:main',
     ]},
     packages=['k2var'])
