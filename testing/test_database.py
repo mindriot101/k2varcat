@@ -10,4 +10,4 @@ def test_valid_epic_ids(path):
     with mock.patch.object(Database, '__iter__') as mock_iter:
         mock_iter.return_value = iter([epicid, ])
         db = Database()
-        assert list(db.valid_epic_ids()) == [{'epicid': epicid}]
+        assert list(db.valid_epic_ids()) == [epicid, ]

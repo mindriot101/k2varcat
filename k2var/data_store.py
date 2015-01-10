@@ -54,7 +54,7 @@ class Database(object):
     def valid_epic_ids(self):
         for epicid in self:
             if path.isfile(data_file_path(epicid)):
-                yield {'epicid': epicid}
+                yield epicid
 
     def __iter__(self):
         return iter(self.data)
