@@ -7,10 +7,14 @@ from os import path
 import logging
 
 from .data_store import Database, data_file_path
+from .templates import RendersTemplates
 from .paths import BASE_DIR
 
 logging.basicConfig(level=logging.DEBUG, format='%(asctime)s|%(name)s|%(levelname)s|%(message)s')
 logger = logging.getLogger(__name__)
+
+
+renderer = RendersTemplates()
 
 
 def render_static(args):
@@ -19,6 +23,8 @@ def render_static(args):
 
 def render_index_page(args):
     logger.info('Rendering index page')
+    outfile_name = path.join(args.output_dir, 'index.html')
+    renderer.render_to('index', outfile_name, app_root=args.root)
 
 
 def render_detail_page(epicid, args):
