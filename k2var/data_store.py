@@ -1,4 +1,4 @@
-import fitsio
+from astropy.io import fits as pyfits
 from os import path
 import csv
 from .paths import BASE_DIR
@@ -17,7 +17,7 @@ def data_file_path(epicid):
 class DataStore(object):
 
     def __init__(self, filename):
-        self.hdu = fitsio.read(filename, 1)
+        self.hdu = pyfits.getdata(filename, 1)
 
     def __getitem__(self, value):
         return self.hdu[value.upper()]
