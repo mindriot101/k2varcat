@@ -5,8 +5,13 @@ from k2var import templates
 
 
 @pytest.fixture
-def renderer():
-    return templates.RendersTemplates()
+def url_root():
+    return ''
+
+
+@pytest.fixture
+def renderer(url_root):
+    return templates.RendersTemplates(url_root)
 
 
 @pytest.fixture

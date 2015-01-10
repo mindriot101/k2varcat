@@ -1,10 +1,15 @@
 from jinja2 import Environment, PackageLoader
 
+from .urls import url_for
+
 
 class RendersTemplates(object):
 
-    def __init__(self):
+    def __init__(self, root):
         self.environment = Environment(loader=PackageLoader('k2var', 'templates'))
+        self.environment.globals.update(
+            url_for=url_for(root),
+        )
 
     def render(self, template_stub, **context):
         template = self[template_stub]
