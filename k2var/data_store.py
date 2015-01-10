@@ -52,5 +52,4 @@ class Database(object):
         return out
 
     def __iter__(self):
-        for epicid in self.data:
-            yield epicid
+        return iter(self.data)
