@@ -7,7 +7,14 @@ import logging
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
-import StringIO
+import sys
+try:
+    import StringIO
+except ImportError:
+    if sys.version_info.major == 3:
+        import io as StringIO
+    else:
+        raise
 from flask import render_template
 
 from .data_store import DataStore

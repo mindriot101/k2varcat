@@ -1,6 +1,13 @@
 from k2var.rendering import LightcurvePlotter
 import jinja2
-import mock
+try:
+    import mock
+except ImportError:
+    import sys
+    if sys.version_info.major == 3:
+        from unittest import mock
+    else:
+        raise
 
 
 @mock.patch('k2var.rendering.Plotter', autospec=True)
