@@ -6,3 +6,5 @@ build
 *.egg-info
 *.pyc
 build.tar.gz
+queue/*
+!queue/.gitkeep

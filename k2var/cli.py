@@ -9,6 +9,7 @@ import logging
 from .data_store import Database, data_file_path
 from .paths import BASE_DIR
 from .rendering import LightcurvePlotter, TableRenderer
+from .tasks import render_page
 from .templates import RendersTemplates
 from .urls import build_stsci_url
 
@@ -37,24 +38,20 @@ class K2Var(object):
         outfile_name = path.join(self.args.output_dir, 'index.html')
         return self.renderer.render_to('index', outfile_name, app_root=self.args.root)
 
-    def render_detail_page(self, epicid):
-        logger.info('Rendering detail page for object %s', epicid)
-        meta = self.db.get(epicid)
-        filename = data_file_path(epicid)
-        outfile_name = path.join(self.args.output_dir,
-                                 'objects', '{}.html'.format(epicid))
-        return self.renderer.render_to(
-            'lightcurve',
-            outfile_name,
-            app_root=self.args.root,
-            epicid=epicid,
-            stsci_url=build_stsci_url(epicid),
-            parameters_table=TableRenderer(self.args.root, meta).render(),
-            lightcurves=LightcurvePlotter(self.args.root, meta, filename).render())
-
     def render_detail_pages(self):
+        logger.info('Rendering detail pages')
+        results = []
+
         for epicid in self.db.valid_epic_ids():
-            self.render_detail_page(epicid)
+            logger.debug('Submitting task for {}'.format(epicid))
+            results.append(render_page.delay(
+                output_dir=self.args.output_dir,
+                root_url=self.args.root,
+                epicid=epicid))
+
+        for result in results:
+            epicid, _ = result.wait()
+            logger.debug('Job {} complete'.format(epicid))
 
 
 def main():
