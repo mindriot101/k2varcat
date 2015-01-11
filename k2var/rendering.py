@@ -5,6 +5,7 @@ matplotlib.use('Agg')
 
 import logging
 import numpy as np
+import base64
 import matplotlib.pyplot as plt
 import seaborn as sns
 import sys
@@ -63,11 +64,11 @@ class Plotter(object):
         return self
 
     def serialised(self):
-        s = StringIO.StringIO()
+        s = StringIO.BytesIO()
         self.fig.tight_layout()
         self.fig.savefig(s, bbox_inches='tight', format='png')
         plt.close(self.fig)
-        return s.getvalue().encode('base64').strip()
+        return base64.b64encode(s.getvalue()).strip().decode('utf-8')
 
     def render(self):
         return render_template('image.html', data=self.serialised())
