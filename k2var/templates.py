@@ -1,6 +1,6 @@
 from jinja2 import Environment, PackageLoader
 
-from .urls import url_for
+from .urls import UrlFor
 
 
 class RendersTemplates(object):
@@ -8,7 +8,7 @@ class RendersTemplates(object):
     def __init__(self, root):
         self.environment = Environment(loader=PackageLoader('k2var', 'templates'))
         self.environment.globals.update(
-            url_for=url_for(root),
+            url_for=UrlFor(root),
         )
 
     def render(self, template_stub, **context):

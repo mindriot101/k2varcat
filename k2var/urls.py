@@ -1,4 +1,4 @@
-class url_for(object):
+class UrlFor(object):
 
     def __init__(self, root):
         self.root = root
