@@ -6,8 +6,10 @@ from .templates import RendersTemplates
 from .urls import build_stsci_url
 from .rendering import LightcurvePlotter, TableRenderer
 
-BROKER_URL = 'sqla+sqlite:///queue/queue.sqlite'
-RESULTS_URL = 'db+sqlite:///queue/results.sqlite'
+
+db_url = 'queue/queue.sqlite'
+BROKER_URL = '/'.join(['sqla+sqlite://', db_url])
+RESULTS_URL = '/'.join(['db+sqlite://', db_url])
 
 app = Celery('rendering', broker=BROKER_URL, backend=RESULTS_URL)
 db = Database()
