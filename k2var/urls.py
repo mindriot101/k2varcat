@@ -22,3 +22,8 @@ class UrlFor(object):
 
     def index_url(self, **kwargs):
         return '/'.join([self.root, ''])
+
+
+def build_stsci_url(epicid):
+    return "https://archive.stsci.edu/k2/preview.php?dsn=KTWO{epicid}-C00&type=LC".format(
+        epicid=epicid)

@@ -4,14 +4,10 @@ from os import path
 from .paths import BASE_DIR, DATA_DIR, lightcurve_filename
 from .data_store import Database, data_file_path
 from .rendering import LightcurvePlotter, TableRenderer
+from .urls import build_stsci_url
 
 app = Flask(__name__)
 database = Database()
-
-
-def build_stsci_url(epicid):
-    return "https://archive.stsci.edu/k2/preview.php?dsn=KTWO{epicid}-C00&type=LC".format(
-        epicid=epicid)
 
 
 @app.route('/')
