@@ -19,6 +19,13 @@ class K2Var(object):
     def __init__(self, args):
         self.args = args
         self.renderer = RendersTemplates(self.args.root)
+        self.db = Database()
+
+    def render(self):
+        logger.debug('Arguments: %s', self.args)
+        self.render_static()
+        self.render_index_page()
+        self.render_detail_pages()
 
     def render_static(self):
         logger.info('Rendering static files')
@@ -31,12 +38,8 @@ class K2Var(object):
     def render_detail_page(self, epicid):
         logger.info('Rendering detail page for object %s', epicid)
 
-    def render(self):
-        logger.debug('Arguments: %s', self.args)
-        db = Database()
-        self.render_static()
-        self.render_index_page()
-        for epicid in db.valid_epic_ids():
+    def render_detail_pages(self):
+        for epicid in self.db.valid_epic_ids():
             self.render_detail_page(epicid)
 
 
