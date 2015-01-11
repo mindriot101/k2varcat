@@ -4,6 +4,7 @@
 
 import argparse
 from os import path
+import os
 import logging
 
 from .data_store import Database, data_file_path
@@ -23,9 +24,25 @@ class K2Var(object):
         self.args = args
         self.renderer = RendersTemplates(self.args.root)
         self.db = Database()
+        self.output_paths = self.build_output_paths()
+
+    def build_output_paths(self):
+        root = path.realpath(self.args.output_dir)
+        return [path.join(root, 'objects'),
+                path.join(root, 'static')]
+
+    def ensure_output_dir(self):
+        for p in self.output_paths:
+            self.ensure_path(p)
+
+    @staticmethod
+    def ensure_path(p):
+        if not path.isdir(p):
+            os.makedirs(p, exist_ok=True)
 
     def render(self):
         logger.debug('Arguments: %s', self.args)
+        self.ensure_output_dir()
         self.render_static()
         self.render_index_page()
         self.render_detail_pages()
