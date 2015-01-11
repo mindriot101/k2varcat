@@ -3,9 +3,15 @@ class UrlFor(object):
     def __init__(self, root):
         self.root = root
 
-    def static_url(self, filename):
-        return '/'.join([self.root, 'static', filename])
-
     def __call__(self, endpoint, **kwargs):
-        if endpoint == 'static':
-            return self.static_url(kwargs['filename'])
+        method_name = '{}_url'.format(endpoint)
+        try:
+            method = getattr(self, method_name)
+        except AttributeError:
+            raise AttributeError('No dispatch method `{}`, you may need to define it'.format(
+                method_name))
+
+        return method(**kwargs)
+
+    def static_url(self, **kwargs):
+        return '/'.join([self.root, 'static', kwargs['filename']])
