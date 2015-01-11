@@ -56,7 +56,11 @@ class K2Var(object):
             dest_dir = path.join(self.args.output_dir, 'static',
                                  path.basename(subdir))
             logger.debug('Copying {} => {}'.format(full_path, dest_dir))
-            shutil.copytree(full_path, dest_dir)
+            try:
+                shutil.copytree(full_path, dest_dir)
+            except FileExistsError:
+                shutil.rmtree(dest_dir)
+                shutil.copytree(full_path, dest_dir)
 
     def render_index_page(self):
         logger.info('Rendering index page')
