@@ -1,3 +1,15 @@
 import pytest
-import glob
 from os import path
+
+from k2var import tasks
+
+
+@pytest.fixture
+def epicid():
+    return 202059229
+
+
+def test_copy_download_file(tmpdir, epicid):
+    out_dir = str(tmpdir)
+    tasks.copy_download_file(out_dir, epicid)
+    assert path.isfile(str(tmpdir.join('download', 'k2var-{}.fits'.format(epicid))))
