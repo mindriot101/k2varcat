@@ -6,9 +6,10 @@ import argparse
 from os import path
 import os
 import logging
+import shutil
 
 from .data_store import Database, data_file_path
-from .paths import BASE_DIR
+from .paths import BASE_DIR, PACKAGE_DIR
 from .rendering import LightcurvePlotter, TableRenderer
 from .tasks import render_page
 from .templates import RendersTemplates
@@ -49,6 +50,13 @@ class K2Var(object):
 
     def render_static(self):
         logger.info('Rendering static files')
+        source_dir = path.join(PACKAGE_DIR, 'static')
+        for subdir in os.listdir(source_dir):
+            full_path = path.join(source_dir, subdir)
+            dest_dir = path.join(self.args.output_dir, 'static',
+                                 path.basename(subdir))
+            logger.debug('Copying {} => {}'.format(full_path, dest_dir))
+            shutil.copytree(full_path, dest_dir)
 
     def render_index_page(self):
         logger.info('Rendering index page')

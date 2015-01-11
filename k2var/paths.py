@@ -4,6 +4,10 @@ BASE_DIR = path.realpath(
     path.join(
         path.dirname(__file__), '..'))
 
+PACKAGE_DIR = path.realpath(
+    path.join(
+        BASE_DIR, __name__.split('.')[0]))
+
 DATA_DIR = path.realpath(
     path.join(
         BASE_DIR, 'data'))
