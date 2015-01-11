@@ -15,3 +15,7 @@ class UrlFor(object):
 
     def static_url(self, **kwargs):
         return '/'.join([self.root, 'static', kwargs['filename']])
+
+    def download_url(self, **kwargs):
+        filename = 'k2var-{epicid}.fits'.format(epicid=kwargs['epicid'])
+        return '/'.join([self.root, 'download', filename])
