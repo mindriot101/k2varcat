@@ -7,6 +7,9 @@ def url_root():
     return ''
 
 
-def test_static_path(url_root):
-    u = UrlFor(url_root)
-    assert u('static', filename='test.css') == '/static/test.css'
+@pytest.fixture
+def url_for(url_root):
+    return UrlFor(url_root)
+
+def test_static_path(url_for):
+    assert url_for('static', filename='test.css') == '/static/test.css'
