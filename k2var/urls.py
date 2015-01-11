@@ -19,3 +19,6 @@ class UrlFor(object):
     def download_url(self, **kwargs):
         filename = 'k2var-{epicid}.fits'.format(epicid=kwargs['epicid'])
         return '/'.join([self.root, 'download', filename])
+
+    def index_url(self, **kwargs):
+        return '/'.join([self.root, ''])
