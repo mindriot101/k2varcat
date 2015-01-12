@@ -78,6 +78,7 @@ class K2Var(object):
                 root_url=self.args.root,
                 epicid=epicid))
 
+        logger.info('Waiting for job completion')
         for result in results:
             epicid, _ = result.wait()
             logger.debug('Job {} complete'.format(epicid))
