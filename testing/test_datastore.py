@@ -1,6 +1,7 @@
-from k2var import data_store
 import pytest
 from os import path
+
+from k2var import data_store
 
 
 @pytest.fixture

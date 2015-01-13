@@ -1,4 +1,3 @@
-from k2var.rendering import LightcurvePlotter
 import jinja2
 try:
     import mock
@@ -9,6 +8,9 @@ except ImportError:
     else:
         raise
 import pytest
+
+from k2var import rendering
+
 
 @pytest.fixture
 def url_root():
@@ -22,7 +24,7 @@ def test_raw_lightcurve(mock_data_store, mock_plotter, url_root):
     meta = mock.MagicMock()
     filename = mock.MagicMock()
 
-    plotter = LightcurvePlotter(url_root, meta, filename)
+    plotter = rendering.LightcurvePlotter(url_root, meta, filename)
     plotter.raw_lightcurve()
 
     plot_result.assert_called_once_with()
@@ -35,7 +37,7 @@ def test_detrended_lightcurve(mock_data_store, mock_plotter, url_root):
     meta = mock.MagicMock()
     filename = mock.MagicMock()
 
-    plotter = LightcurvePlotter(url_root, meta, filename)
+    plotter = rendering.LightcurvePlotter(url_root, meta, filename)
     plotter.detrended_lightcurve()
 
     plot_result.assert_called_once_with()

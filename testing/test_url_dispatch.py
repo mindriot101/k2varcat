@@ -1,5 +1,6 @@
 import pytest
-from k2var.urls import UrlFor
+
+from k2var import urls
 
 
 @pytest.fixture
@@ -9,7 +10,7 @@ def url_root():
 
 @pytest.fixture
 def url_for(url_root):
-    return UrlFor(url_root)
+    return urls.UrlFor(url_root)
 
 
 def test_static_path(url_for):
