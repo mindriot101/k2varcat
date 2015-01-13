@@ -18,7 +18,3 @@ def test_data_store_all_keys(ds):
     for key in ['time', 'aptflux', 'aptflux_err', 'detflux']:
         ds[key]
 
-
-def test_data_file_path(monkeypatch):
-    monkeypatch.setattr(data_store, 'DATA_DIR', '/')
-    assert data_store.data_file_path(epicid=1, campaign=0) == '/ktwo1-c00_lpd-targ_X_D.fits'

@@ -8,7 +8,7 @@ import os
 import logging
 import shutil
 
-from .data_store import Database, data_file_path
+from .data_store import Database
 from .paths import BASE_DIR, PACKAGE_DIR
 from .rendering import LightcurvePlotter, TableRenderer
 from .tasks import render_page

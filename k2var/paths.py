@@ -12,5 +12,11 @@ DATA_DIR = path.realpath(
     path.join(
         BASE_DIR, 'data'))
 
-def lightcurve_filename(epicid):
-    return 'ktwo{epicid}-c00_lpd-targ_X_D.fits'.format(epicid=epicid)
+
+def lightcurve_filename(epicid, campaign=0):
+    return 'ktwo{epicid}-c{campaign:02d}_lpd-targ_X_D.fits'.format(
+        epicid=epicid, campaign=campaign)
+
+
+def data_file_path(epicid, campaign=0):
+    return path.join(DATA_DIR, lightcurve_filename(epicid, campaign))

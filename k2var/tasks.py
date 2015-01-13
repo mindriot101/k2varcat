@@ -3,7 +3,8 @@ from os import path
 import shutil
 
 from celery import Celery
-from .data_store import Database, data_file_path
+from .data_store import Database
+from .paths import data_file_path
 from .templates import RendersTemplates
 from .urls import build_stsci_url
 from .rendering import LightcurvePlotter, TableRenderer

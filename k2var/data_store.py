@@ -1,13 +1,7 @@
 from astropy.io import fits as pyfits
 from os import path
 import csv
-from .paths import DATA_DIR
-
-
-def data_file_path(epicid, campaign=0):
-    return path.join(DATA_DIR,
-                     'ktwo{epicid}-c{campaign:02d}_lpd-targ_X_D.fits'.format(
-                         epicid=epicid, campaign=campaign))
+from .paths import data_file_path
 
 
 class DataStore(object):
