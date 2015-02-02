@@ -9,7 +9,7 @@ import logging
 import shutil
 
 from .data_store import Database
-from .paths import BASE_DIR, PACKAGE_DIR
+from .paths import BASE_DIR, PACKAGE_DIR, detail_output_path
 from .rendering import LightcurvePlotter, TableRenderer
 from .tasks import render_page
 from .templates import RendersTemplates
@@ -72,11 +72,16 @@ class K2Var(object):
         results = []
 
         for epicid in self.db.valid_epic_ids():
-            logger.debug('Submitting task for {}'.format(epicid))
-            results.append(render_page.delay(
-                output_dir=self.args.output_dir,
-                root_url=self.args.root,
-                epicid=epicid))
+            logger.info('Submitting task for {}'.format(epicid))
+            outfile_name = detail_output_path(epicid, self.args.output_dir)
+            if not path.isfile(outfile_name):
+                results.append(render_page.delay(
+                    output_dir=self.args.output_dir,
+                    root_url=self.args.root,
+                    epicid=epicid))
+            else:
+                logger.debug('Not rendering {}, file exists'.format(
+                    outfile_name))
 
         logger.info('Waiting for job completion')
         for result in results:
