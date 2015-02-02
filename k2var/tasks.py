@@ -4,7 +4,7 @@ import shutil
 
 from celery import Celery
 from .data_store import Database
-from .paths import data_file_path
+from .paths import data_file_path, detail_output_path
 from .templates import RendersTemplates
 from .urls import build_stsci_url
 from .rendering import LightcurvePlotter, TableRenderer
@@ -36,8 +36,7 @@ def render_page(output_dir, root_url, epicid):
     renderer = RendersTemplates(root_url)
     meta = db.get(epicid)
     filename = data_file_path(epicid)
-    outfile_name = path.join(output_dir,
-                             'objects', '{}.html'.format(epicid))
+    outfile_name = detail_output_path(epicid, output_dir)
     copy_download_file(output_dir, epicid)
     return epicid, renderer.render_to(
         'lightcurve',

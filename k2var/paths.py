@@ -20,3 +20,7 @@ def lightcurve_filename(epicid, campaign=0):
 
 def data_file_path(epicid, campaign=0):
     return path.join(DATA_DIR, lightcurve_filename(epicid, campaign))
+
+
+def detail_output_path(epicid, output_dir):
+    return path.join(output_dir, 'objects', '{}.html'.format(epicid))
