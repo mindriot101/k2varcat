@@ -1,9 +1,14 @@
+amqp==1.4.6
+anyjson==0.3.3
 astropy==0.4.2
+billiard==3.3.0.19
+celery==3.1.17
 ecdsa==0.11
 Fabric==1.10.1
 ipython==2.3.1
 itsdangerous==0.24
 Jinja2==2.7.3
+kombu==3.0.24
 MarkupSafe==0.23
 matplotlib==1.4.2
 numpy==1.9.1
@@ -18,4 +23,5 @@ pytz==2014.9
 scipy==0.14.0
 seaborn==0.5.1
 six==1.9.0
+SQLAlchemy==0.9.8
 Werkzeug==0.9.6
