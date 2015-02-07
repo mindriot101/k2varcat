@@ -2,7 +2,7 @@ import pytest
 from os import path
 import glob
 
-ALLOWED_IDS = ['202059224', '202059221', '202059229']
+ALLOWED_IDS = ['202059224', '202059221', '202059229', '201122454']
 BASEDIR = path.join(
     path.dirname(__file__),
     '..')
