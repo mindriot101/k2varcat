@@ -31,9 +31,8 @@ def copy_download_file(output_dir, epicid, campaign):
 
 
 @app.task
-def render_page(output_dir, root_url, epicid, campaign, metadata_csv):
+def render_page(output_dir, root_url, epicid, campaign, metadata):
     renderer = RendersTemplates(root_url)
-    meta = Database(metadata_csv).get(epicid)
     filename = data_file_path(epicid, campaign=campaign)
     outfile_name = detail_output_path(epicid, output_dir)
     copy_download_file(output_dir, epicid, campaign=campaign)
@@ -43,5 +42,5 @@ def render_page(output_dir, root_url, epicid, campaign, metadata_csv):
         app_root=root_url,
         epicid=epicid,
         stsci_url=build_stsci_url(epicid),
-        parameters_table=TableRenderer(root_url, meta).render(),
-        lightcurves=LightcurvePlotter(root_url, meta, filename).render())
+        parameters_table=TableRenderer(root_url, metadata).render(),
+        lightcurves=LightcurvePlotter(root_url, metadata, filename).render())

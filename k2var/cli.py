@@ -76,7 +76,7 @@ class K2Var(object):
             outfile_name = detail_output_path(epicid, self.args.output_dir)
             if not path.lexists(outfile_name):
                 results.append(render_page.delay(
-                    metadata_csv=self.args.metadata_csv,
+                    metadata=self.db.get(epicid),
                     output_dir=self.args.output_dir,
                     root_url=self.args.root,
                     epicid=epicid,
