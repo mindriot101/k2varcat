@@ -58,7 +58,7 @@ class K2Var(object):
             logger.debug('Copying {} => {}'.format(full_path, dest_dir))
             try:
                 shutil.copytree(full_path, dest_dir)
-            except FileExistsError:
+            except OSError:
                 shutil.rmtree(dest_dir)
                 shutil.copytree(full_path, dest_dir)
 
