@@ -17,11 +17,6 @@ def db():
 
 
 @pytest.fixture
-def valid_epicid(db):
-    return list(itertools.islice(db.valid_epic_ids(), 1))[0]
-
-
-@pytest.fixture
 def ensure_output_dir(tmpdir):
     output_dir = str(tmpdir)
     args = mock.Mock(root='/', output_dir=output_dir)
@@ -30,7 +25,7 @@ def ensure_output_dir(tmpdir):
     return output_dir
 
 
-def test_render_page(valid_epicid, ensure_output_dir):
+def test_render_page(epicid, ensure_output_dir):
     output_dir = ensure_output_dir
     root_url = '/'
     tasks.render_page(output_dir, root_url, valid_epicid)
