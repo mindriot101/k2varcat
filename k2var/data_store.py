@@ -43,8 +43,9 @@ class Database(object):
 
     def valid_epic_ids(self):
         for epicid in self:
-            if path.isfile(data_file_path(epicid)):
-                yield epicid
+            for campaign in campaigns:
+                if path.lexists(data_file_path(epicid, campaign=campaign)):
+                    yield epicid
 
     def __iter__(self):
         return iter(self.data)

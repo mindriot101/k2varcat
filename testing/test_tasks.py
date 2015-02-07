@@ -35,6 +35,5 @@ def test_render_page(valid_epicid, ensure_output_dir):
     root_url = '/'
     tasks.render_page(output_dir, root_url, valid_epicid)
 
-    assert os.path.isfile(
-        os.path.join(output_dir, 'objects', '{}.html'.format(valid_epicid)
-                     ))
+    assert os.path.lexists(
+        os.path.join(output_dir, 'objects', '{}.html'.format(epicid)))

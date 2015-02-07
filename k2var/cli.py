@@ -74,7 +74,7 @@ class K2Var(object):
         for epicid in self.db.valid_epic_ids():
             logger.info('Submitting task for {}'.format(epicid))
             outfile_name = detail_output_path(epicid, self.args.output_dir)
-            if not path.isfile(outfile_name):
+            if not path.lexists(outfile_name):
                 results.append(render_page.delay(
                     output_dir=self.args.output_dir,
                     root_url=self.args.root,

@@ -26,8 +26,8 @@ def copy_download_file(output_dir, epicid):
     os.makedirs(dest_dir, exist_ok=True)
 
     output_filename = path.join(output_dir, 'download', 'k2var-{}.fits'.format(epicid))
-    if not path.isfile(output_filename):
-        source_filename = data_file_path(epicid)
+    if not path.lexists(output_filename):
+        source_filename = data_file_path(epicid, campaign=campaign)
         shutil.copy(source_filename, output_filename)
 
 
