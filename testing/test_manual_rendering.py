@@ -1,24 +1,34 @@
 import pytest
 from os import path
-from collections import namedtuple
+try:
+    from unittest import mock
+except ImportError:
+    import mock
 
 from k2var import cli
 
-Arguments = namedtuple('Arguments', ['root', 'output_dir'])
+def build_args(root, output_dir, csv_filename):
+    class Arguments(object):
+        pass
 
-
-def build_args(root, output_dir):
-    return Arguments(root, output_dir)
+    self = Arguments()
+    self.root = root
+    self.output_dir = output_dir
+    self.metadata_csv = csv_filename
+    return self
 
 
 @pytest.fixture
-def app():
-    return cli.K2Var(build_args('root', 'output_dir'))
+@mock.patch('k2var.cli.Database.load_data')
+def app(load_data):
+    return cli.K2Var(build_args('root', 'output_dir', 'csv_filename'))
 
 
 def test_build_args():
-    args = build_args('root', 'output_dir')
-    assert args.root == 'root' and args.output_dir == 'output_dir'
+    args = build_args('root', 'output_dir', 'csv_filename')
+    assert (args.root == 'root' and
+            args.output_dir == 'output_dir' and
+            args.metadata_csv == 'csv_filename')
 
 
 def test_build_output_paths(app):
@@ -30,7 +40,9 @@ def test_build_output_paths(app):
 
 
 def test_ensure_output_dirs(tmpdir):
-    app = cli.K2Var(build_args('root', str(tmpdir.join('output'))))
+    app = cli.K2Var(build_args('root',
+                               str(tmpdir.join('output')),
+                               'k2var/K2VarCat.csv'))
     app.ensure_output_dir()
 
     assert all(list(map(path.isdir, [

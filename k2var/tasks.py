@@ -3,7 +3,6 @@ from os import path
 import shutil
 
 from celery import Celery
-from .data_store import Database
 from .paths import data_file_path, detail_output_path
 from .templates import RendersTemplates
 from .urls import build_stsci_url
@@ -15,13 +14,12 @@ BROKER_URL = '/'.join(['sqla+sqlite://', db_url])
 RESULTS_URL = '/'.join(['db+sqlite://', db_url])
 
 app = Celery('rendering', broker=BROKER_URL, backend=RESULTS_URL)
-db = Database()
 
 app.conf.CELERY_ACCEPT_CONTENT = ['json', 'msgpack', 'yaml']
 app.conf.CELERY_TASK_SERIALIZER = 'json'
 
 
-def copy_download_file(output_dir, epicid):
+def copy_download_file(output_dir, epicid, campaign):
     dest_dir = path.join(output_dir, 'download')
     os.makedirs(dest_dir, exist_ok=True)
 
@@ -32,7 +30,7 @@ def copy_download_file(output_dir, epicid):
 
 
 @app.task
-def render_page(output_dir, root_url, epicid):
+def render_page(db, output_dir, root_url, epicid):
     renderer = RendersTemplates(root_url)
     meta = db.get(epicid)
     filename = data_file_path(epicid)

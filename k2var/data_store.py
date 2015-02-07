@@ -15,20 +15,16 @@ class DataStore(object):
 
 class Database(object):
 
-    DATA_NAME = path.join(
-        path.dirname(__file__),
-        'K2VarCat.csv')
-
-    def __init__(self):
+    def __init__(self, csv_filename):
+        self.csv_filename = csv_filename
         self.data = self.load_data()
 
     def get(self, epicid):
         return self.data[epicid]
 
-    @classmethod
-    def load_data(cls):
+    def load_data(self):
         out = {}
-        with open(cls.DATA_NAME) as infile:
+        with open(self.csv_filename) as infile:
             reader = csv.DictReader(infile,
                                     fieldnames=['epicid', 'type',
                                                 'range', 'period', 'amplitude'])
@@ -41,7 +37,7 @@ class Database(object):
                 }
         return out
 
-    def valid_epic_ids(self):
+    def valid_epic_ids(self, campaigns=[0, 1]):
         for epicid in self:
             for campaign in campaigns:
                 if path.lexists(data_file_path(epicid, campaign=campaign)):
