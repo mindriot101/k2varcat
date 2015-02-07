@@ -21,3 +21,9 @@ def epicid(base_dir):
         for i in ALLOWED_IDS:
             if i in fname:
                 return i
+
+@pytest.fixture(scope='session')
+def filename(epicid, base_dir):
+    files = glob.glob('{}/ktwo{}*.fits'.format(
+        path.join(base_dir, 'data'), epicid))
+    return files[0]

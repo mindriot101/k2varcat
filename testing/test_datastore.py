@@ -5,9 +5,8 @@ from k2var import data_store
 
 
 @pytest.fixture
-def ds(epicid, base_dir):
-    fname = path.join(base_dir, 'data', 'ktwo{}-c00_lpd-targ_X_D.fits'.format(epicid))
-    return data_store.DataStore(fname)
+def ds(filename, base_dir):
+    return data_store.DataStore(filename)
 
 
 def test_data_store(ds):
