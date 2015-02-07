@@ -41,7 +41,7 @@ class Database(object):
                 }
         return out
 
-    def valid_epic_ids(self):
+    def valid_epic_ids(self, campaigns=[0, 1, 2, 3]):
         for epicid in self:
             for campaign in campaigns:
                 if path.lexists(data_file_path(epicid, campaign=campaign)):

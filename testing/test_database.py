@@ -14,4 +14,4 @@ def test_valid_epic_ids(path):
     with mock.patch.object(data_store.Database, '__iter__') as mock_iter:
         mock_iter.return_value = iter([epicid, ])
         db = data_store.Database()
-        assert list(db.valid_epic_ids()) == [epicid, ]
+        assert list(db.valid_epic_ids(campaigns=[0,])) == [epicid, ]
