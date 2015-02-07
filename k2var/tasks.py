@@ -30,12 +30,12 @@ def copy_download_file(output_dir, epicid, campaign):
 
 
 @app.task
-def render_page(db, output_dir, root_url, epicid):
+def render_page(db, output_dir, root_url, epicid, campaign):
     renderer = RendersTemplates(root_url)
     meta = db.get(epicid)
-    filename = data_file_path(epicid)
+    filename = data_file_path(epicid, campaign=campaign)
     outfile_name = detail_output_path(epicid, output_dir)
-    copy_download_file(output_dir, epicid)
+    copy_download_file(output_dir, epicid, campaign=campaign)
     return epicid, renderer.render_to(
         'lightcurve',
         outfile_name,

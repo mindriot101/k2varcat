@@ -29,7 +29,7 @@ def ensure_output_dir(tmpdir):
 def test_render_page(epicid, db, ensure_output_dir):
     output_dir = ensure_output_dir
     root_url = '/'
-    tasks.render_page(db, output_dir, root_url, epicid)
+    tasks.render_page(output_dir, root_url, epicid, campaign=1)
 
     assert os.path.lexists(
         os.path.join(output_dir, 'objects', '{}.html'.format(epicid)))
