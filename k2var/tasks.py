@@ -3,6 +3,7 @@ from os import path
 import shutil
 
 from celery import Celery
+from .data_store import Database
 from .paths import data_file_path, detail_output_path
 from .templates import RendersTemplates
 from .urls import build_stsci_url
@@ -30,9 +31,9 @@ def copy_download_file(output_dir, epicid, campaign):
 
 
 @app.task
-def render_page(db, output_dir, root_url, epicid, campaign):
+def render_page(output_dir, root_url, epicid, campaign, metadata_csv):
     renderer = RendersTemplates(root_url)
-    meta = db.get(epicid)
+    meta = Database(metadata_csv).get(epicid)
     filename = data_file_path(epicid, campaign=campaign)
     outfile_name = detail_output_path(epicid, output_dir)
     copy_download_file(output_dir, epicid, campaign=campaign)

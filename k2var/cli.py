@@ -24,7 +24,7 @@ class K2Var(object):
     def __init__(self, args):
         self.args = args
         self.renderer = RendersTemplates(self.args.root)
-        self.db = Database(args.metadata_csv)
+        self.db = Database(self.args.metadata_csv)
         self.output_paths = self.build_output_paths()
 
     def build_output_paths(self):
@@ -76,10 +76,12 @@ class K2Var(object):
             outfile_name = detail_output_path(epicid, self.args.output_dir)
             if not path.lexists(outfile_name):
                 results.append(render_page.delay(
-                    db=self.db,
+                    metadata_csv=self.args.metadata_csv,
                     output_dir=self.args.output_dir,
                     root_url=self.args.root,
-                    epicid=epicid))
+                    epicid=epicid,
+                    campaign=self.args.campaign,
+                ))
             else:
                 logger.debug('Not rendering {}, file exists'.format(
                     outfile_name))
@@ -96,4 +98,5 @@ def main():
     parser.add_argument('-r', '--root', default='', help='Application root. For phsnag: /phsnag/')
     parser.add_argument('-o', '--output-dir', default=default_output, required=False)
     parser.add_argument('-d', '--metadata-csv', required=True)
+    parser.add_argument('-c', '--campaign', required=True, type=int)
     K2Var(parser.parse_args()).render()
