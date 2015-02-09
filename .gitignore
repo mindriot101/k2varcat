@@ -8,3 +8,5 @@ build
 build.tar.gz
 queue/*
 !queue/.gitkeep
+!var/run/.gitkeep
+var/run/*
