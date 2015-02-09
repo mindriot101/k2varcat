@@ -4,20 +4,21 @@ import shutil
 
 from celery import Celery
 from .data_store import Database
-from .paths import data_file_path, detail_output_path
+from .paths import data_file_path, detail_output_path, BASE_DIR
 from .templates import RendersTemplates
 from .urls import build_stsci_url
 from .rendering import LightcurvePlotter, TableRenderer
 
 
-db_url = 'queue/queue.sqlite'
-BROKER_URL = '/'.join(['sqla+sqlite://', db_url])
-RESULTS_URL = '/'.join(['db+sqlite://', db_url])
+socket_path = path.join(BASE_DIR, 'var', 'run', 'redis.sock')
+BROKER_URL = 'redis+socket://{socket_path}'.format(socket_path=socket_path)
+RESULTS_URL = 'redis+socket://{socket_path}'.format(socket_path=socket_path)
 
 app = Celery('rendering', broker=BROKER_URL, backend=RESULTS_URL)
 
-app.conf.CELERY_ACCEPT_CONTENT = ['json', 'msgpack', 'yaml']
+app.conf.CELERY_ACCEPT_CONTENT = ['json']
 app.conf.CELERY_TASK_SERIALIZER = 'json'
+app.conf.CELERY_RESULT_SERIALIZER = 'json'
 
 
 def copy_download_file(output_dir, epicid, campaign):
