@@ -41,6 +41,6 @@ def render_page(output_dir, root_url, epicid, campaign, metadata):
         outfile_name,
         app_root=root_url,
         epicid=epicid,
-        stsci_url=build_stsci_url(epicid),
+        stsci_url=build_stsci_url(epicid, campaign=campaign),
         parameters_table=TableRenderer(root_url, metadata).render(),
         lightcurves=LightcurvePlotter(root_url, metadata, filename).render())

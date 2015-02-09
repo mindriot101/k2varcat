@@ -24,6 +24,7 @@ class UrlFor(object):
         return '/'.join([self.root, ''])
 
 
-def build_stsci_url(epicid):
-    return "https://archive.stsci.edu/k2/preview.php?dsn=KTWO{epicid}-C00&type=LC".format(
-        epicid=epicid)
+def build_stsci_url(epicid, campaign):
+    root = "https://archive.stsci.edu/k2/preview.php"
+    return "{root}?dsn=KTWO{epicid}-C{campaign:02d}&type=LC".format(
+        epicid=epicid, root=root, campaign=campaign)

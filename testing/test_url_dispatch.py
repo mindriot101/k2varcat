@@ -30,3 +30,11 @@ def test_bad_endpoint(url_for):
         assert url_for('no-endpoint')
 
     assert 'may need to define' in str(err).lower()
+
+
+def test_build_stsci_url():
+    epicid = 1
+    campaign = 2
+    expected = ("https://archive.stsci.edu/k2/preview.php"
+               "?dsn=KTWO1-C02&type=LC")
+    assert urls.build_stsci_url(epicid=epicid, campaign=campaign) == expected
