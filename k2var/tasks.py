@@ -10,9 +10,8 @@ from .urls import build_stsci_url
 from .rendering import LightcurvePlotter, TableRenderer
 
 
-socket_path = path.join(BASE_DIR, 'var', 'run', 'redis.sock')
-BROKER_URL = 'redis+socket://{socket_path}'.format(socket_path=socket_path)
-RESULTS_URL = 'redis+socket://{socket_path}'.format(socket_path=socket_path)
+BROKER_URL = 'redis://norwood:6379/0'
+RESULTS_URL = 'redis://norwood:6379/1'
 
 app = Celery('rendering', broker=BROKER_URL, backend=RESULTS_URL)
 
