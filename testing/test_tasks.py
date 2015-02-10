@@ -26,11 +26,20 @@ def ensure_output_dir(tmpdir):
     return output_dir
 
 
-def test_render_page(epicid, db, ensure_output_dir):
+def test_render_page_campaign_0(epicid_campaign_0, db, ensure_output_dir):
     output_dir = ensure_output_dir
     root_url = '/'
     meta = {'period': 1., 'range': 1.}
-    tasks.render_page(output_dir, root_url, epicid, campaign=1, metadata=meta)
+    tasks.render_page(output_dir, root_url, epicid_campaign_0, campaign=0, metadata=meta)
 
     assert os.path.lexists(
-        os.path.join(output_dir, 'objects', '{}.html'.format(epicid)))
+        os.path.join(output_dir, 'objects', '{}.html'.format(epicid_campaign_0)))
+
+def test_render_page_campaign_1(epicid_campaign_1, db, ensure_output_dir):
+    output_dir = ensure_output_dir
+    root_url = '/'
+    meta = {'period': 1., 'range': 1.}
+    tasks.render_page(output_dir, root_url, epicid_campaign_1, campaign=1, metadata=meta)
+
+    assert os.path.lexists(
+        os.path.join(output_dir, 'objects', '{}.html'.format(epicid_campaign_1)))

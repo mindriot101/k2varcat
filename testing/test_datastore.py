@@ -5,8 +5,8 @@ from k2var import data_store
 
 
 @pytest.fixture
-def ds(filename, base_dir):
-    return data_store.DataStore(filename)
+def ds(filename_campaign_0, base_dir):
+    return data_store.DataStore(filename_campaign_0)
 
 
 def test_data_store(ds):
