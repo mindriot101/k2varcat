@@ -10,7 +10,7 @@
 <div class="row-fluid">
     <ul class="list-inline">
         <li>
-            <a href="{{ url_for('download', epicid=epicid) }}" class="btn btn-primary" role="button">
+            <a href="{{ url_for('download', epicid=epicid, campaign=campaign) }}" class="btn btn-primary" role="button">
             <span class="glyphicon glyphicon-download" aria-hidden="true"></span> Download fits file</a>
         </li>
         <li><a href="{{ stsci_url }}">STSCI</a></li>

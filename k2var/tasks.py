@@ -5,7 +5,8 @@ import socket
 
 from celery import Celery
 from .data_store import Database
-from .paths import data_file_path, detail_output_path, BASE_DIR
+from .paths import (data_file_path, detail_output_path, BASE_DIR,
+                    lightcurve_filename)
 from .templates import RendersTemplates
 from .urls import build_stsci_url
 from .rendering import LightcurvePlotter, TableRenderer
@@ -33,8 +34,7 @@ def copy_download_file(output_dir, epicid, campaign):
     os.makedirs(dest_dir, exist_ok=True)
 
     output_filename = path.join(
-        output_dir, 'download', 'k2var-{}-c{:02d}.fits'.format(
-        epicid, campaign))
+        output_dir, 'download', lightcurve_filename(epicid, campaign))
     if not path.lexists(output_filename):
         source_filename = data_file_path(epicid, campaign=campaign)
         shutil.copy(source_filename, output_filename)
@@ -49,6 +49,7 @@ def render_page(output_dir, root_url, epicid, campaign, metadata):
     return epicid, renderer.render_to(
         'lightcurve',
         outfile_name,
+        campaign=campaign,
         app_root=root_url,
         epicid=epicid,
         stsci_url=build_stsci_url(epicid, campaign=campaign),

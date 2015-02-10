@@ -1,3 +1,6 @@
+from . import paths
+
+
 class UrlFor(object):
 
     def __init__(self, root):
@@ -17,7 +20,8 @@ class UrlFor(object):
         return '/'.join([self.root, 'static', kwargs['filename']])
 
     def download_url(self, **kwargs):
-        filename = 'k2var-{epicid}.fits'.format(epicid=kwargs['epicid'])
+        filename = paths.lightcurve_filename(
+            kwargs['epicid'], kwargs['campaign'])
         return '/'.join([self.root, 'download', filename])
 
     def index_url(self, **kwargs):

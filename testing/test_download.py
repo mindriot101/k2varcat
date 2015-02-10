@@ -14,7 +14,7 @@ def test_copy_download_file_campaign_0(load_data, tmpdir, epicid_campaign_0):
     tasks.copy_download_file(out_dir, epicid_campaign_0, campaign=0)
     assert path.lexists(str(
         tmpdir.join('download',
-                    'k2var-{}-c00.fits'.format(epicid_campaign_0))))
+                    'ktwo{}-c00_lpd-targ_X_D.fits'.format(epicid_campaign_0))))
 
 
 @mock.patch('k2var.data_store.Database.load_data')
@@ -23,4 +23,4 @@ def test_copy_download_file_campaign_1(load_data, tmpdir, epicid_campaign_1):
     tasks.copy_download_file(out_dir, epicid_campaign_1, campaign=1)
     assert path.lexists(str(
         tmpdir.join('download',
-                    'k2var-{}-c01.fits'.format(epicid_campaign_1))))
+                    'ktwo{}-c01_lpd-targ_X_D.fits'.format(epicid_campaign_1))))
