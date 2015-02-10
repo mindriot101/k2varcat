@@ -1,6 +1,7 @@
 import os
 from os import path
 import shutil
+import socket
 
 from celery import Celery
 from .data_store import Database
@@ -10,8 +11,15 @@ from .urls import build_stsci_url
 from .rendering import LightcurvePlotter, TableRenderer
 
 
-BROKER_URL = 'redis://norwood:6379/0'
-RESULTS_URL = 'redis://norwood:6379/1'
+def devel():
+    return 'mbp' in socket.gethostname()
+
+if devel():
+    BROKER_URL = 'redis://localhost:6379/0'
+    RESULTS_URL = 'redis://localhost:6379/1'
+else:
+    BROKER_URL = 'redis://norwood:6379/0'
+    RESULTS_URL = 'redis://norwood:6379/1'
 
 app = Celery('rendering', broker=BROKER_URL, backend=RESULTS_URL)
 
