@@ -21,8 +21,13 @@ class Database(object):
         self.csv_filename = csv_filename
         self.data = self.load_data()
 
-    def get(self, epicid):
-        return self.data[epicid]
+    def get(self, epicid, campaigns=None):
+        campaigns = campaigns if campaigns is not None else CAMPAIGNS_DEFAULT
+        for campaign in campaigns:
+            if path.lexists(data_file_path(epicid, campaign=campaign)):
+                orig = self.data[epicid]
+                orig.update(campaign=campaign)
+                return orig
 
     def load_data(self):
         out = {}
