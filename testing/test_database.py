@@ -57,3 +57,18 @@ def test_valid_epic_ids_with_fixture_1(load_data,
     db = data_store.Database(None)
     valid_ids = list(db.valid_epic_ids(campaigns=[1, ]))
     assert sorted(valid_ids) == sorted([(epicid_campaign_1, 1), ])
+
+@mock.patch('k2var.data_store.Database.load_data')
+def test_valid_epic_ids_change_defaults(load_data,
+                                        epicid_campaign_0,
+                                        epicid_campaign_1,
+                                        filename_campaign_1,
+                                        monkeypatch):
+    monkeypatch.setattr('k2var.data_store.CAMPAIGNS_DEFAULT', [1, ])
+    load_data.return_value = {
+        epicid_campaign_0: None,
+        epicid_campaign_1: None
+    }
+    db = data_store.Database(None)
+    valid_ids = list(db.valid_epic_ids())
+    assert sorted(valid_ids) == sorted([(epicid_campaign_1, 1)])

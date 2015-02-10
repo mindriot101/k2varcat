@@ -1,7 +1,9 @@
 from astropy.io import fits as pyfits
 from os import path
 import csv
+
 from .paths import data_file_path
+from .constants import CAMPAIGNS_DEFAULT
 
 
 class DataStore(object):
@@ -37,7 +39,8 @@ class Database(object):
                 }
         return out
 
-    def valid_epic_ids(self, campaigns=[0, 1]):
+    def valid_epic_ids(self, campaigns=None):
+        campaigns = campaigns if campaigns is not None else CAMPAIGNS_DEFAULT
         for epicid in self:
             for campaign in campaigns:
                 if path.lexists(data_file_path(epicid, campaign=campaign)):
