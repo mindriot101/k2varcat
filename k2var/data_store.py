@@ -41,7 +41,7 @@ class Database(object):
         for epicid in self:
             for campaign in campaigns:
                 if path.lexists(data_file_path(epicid, campaign=campaign)):
-                    yield epicid
+                    yield epicid, campaign
 
     def __iter__(self):
         return iter(self.data)

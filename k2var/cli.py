@@ -71,7 +71,7 @@ class K2Var(object):
         logger.info('Rendering detail pages')
         results = []
 
-        for epicid in self.db.valid_epic_ids():
+        for epicid, campaign in self.db.valid_epic_ids():
             logger.info('Submitting task for {}'.format(epicid))
             outfile_name = detail_output_path(epicid, self.args.output_dir)
             if not path.lexists(outfile_name):
@@ -80,7 +80,7 @@ class K2Var(object):
                     output_dir=self.args.output_dir,
                     root_url=self.args.root,
                     epicid=epicid,
-                    campaign=self.args.campaign,
+                    campaign=campaign,
                 ))
             else:
                 logger.debug('Not rendering {}, file exists'.format(
@@ -98,5 +98,4 @@ def main():
     parser.add_argument('-r', '--root', default='', help='Application root. For phsnag: /phsnag/')
     parser.add_argument('-o', '--output-dir', default=default_output, required=False)
     parser.add_argument('-d', '--metadata-csv', required=True)
-    parser.add_argument('-c', '--campaign', required=True, type=int)
     K2Var(parser.parse_args()).render()
