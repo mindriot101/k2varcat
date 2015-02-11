@@ -1,4 +1,5 @@
 import urllib.request
+import os
 
 from k2var import test_all
 
@@ -21,3 +22,15 @@ def test_run_server():
     s.join(0.1)
     response = Request.get(port)
     assert response.status_code == 200
+
+
+def test_build_test_directory_links(tmpdir):
+    prefix = '/a/b/c'
+    source_dir = tmpdir.join('source')
+    test_file = source_dir.join('test.html')
+
+    test_all.build_prefix_structure(source_dir=str(source_dir),
+                                    root_dir=str(tmpdir),
+                                    prefix=prefix)
+    assert os.path.lexists(
+        os.path.join(str(tmpdir), prefix.lstrip('/')))

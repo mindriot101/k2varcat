@@ -3,6 +3,7 @@
 
 import argparse
 from http.server import HTTPServer, SimpleHTTPRequestHandler
+import os
 import threading
 
 
@@ -24,6 +25,13 @@ def run_server(port):
     s.daemon = True
     s.start()
     return s
+
+
+def build_prefix_structure(source_dir, root_dir, prefix):
+    full_output_path = os.path.join(root_dir, prefix.lstrip('/'))
+    top_level = os.path.dirname(full_output_path)
+    os.makedirs(top_level)
+    os.symlink(source_dir, full_output_path)
 
 
 def main(args):
