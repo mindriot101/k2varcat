@@ -5,7 +5,9 @@ import argparse
 from http.server import HTTPServer, SimpleHTTPRequestHandler
 import threading
 
+
 class TestServer(threading.Thread):
+
     def __init__(self, port):
         threading.Thread.__init__(self)
         self.port = port
@@ -16,11 +18,13 @@ class TestServer(threading.Thread):
                            SimpleHTTPRequestHandler)
         httpd.serve_forever()
 
+
 def run_server(port):
     s = TestServer(port)
     s.daemon = True
     s.start()
     return s
+
 
 def main(args):
     pass
