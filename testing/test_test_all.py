@@ -37,5 +37,4 @@ def test_build_test_directory_links(tmpdir):
                                     root_dir=str(tmpdir),
                                     prefix=prefix)
 
-    assert os.path.lexists(
-        os.path.join(str(tmpdir), prefix.lstrip('/'), 'test.html'))
+    assert os.path.lexists(os.path.join(str(tmpdir), 'a/b/c/test.html'))
