@@ -27,8 +27,7 @@ def run_server(port):
 
 
 def main(args):
-    # Start by running the server
-    run_server(args.port)
+    server = run_server(args.port)
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
