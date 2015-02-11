@@ -1,9 +1,12 @@
 import urllib.request
+import csv
 import os
 
 from k2var import test_all
 
+
 class Request(object):
+
     @classmethod
     def get(cls, port, url='http://localhost'):
         return cls(urllib.request.urlopen(':'.join([url, str(port)])))
@@ -26,11 +29,13 @@ def test_run_server():
 
 def test_build_test_directory_links(tmpdir):
     prefix = '/a/b/c'
-    source_dir = tmpdir.join('source')
+    source_dir = tmpdir.mkdir('source')
     test_file = source_dir.join('test.html')
+    test_file.write('Hello world')
 
     test_all.build_prefix_structure(source_dir=str(source_dir),
                                     root_dir=str(tmpdir),
                                     prefix=prefix)
+
     assert os.path.lexists(
-        os.path.join(str(tmpdir), prefix.lstrip('/')))
+        os.path.join(str(tmpdir), prefix.lstrip('/'), 'test.html'))
