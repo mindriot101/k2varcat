@@ -88,10 +88,19 @@ def build_urls(port, filename, prefix=''):
 
 
 def main(args):
-    server = run_server(args.port)
+    with temporary_directory() as tdir:
+        htmldir = build_prefix_structure(args.dir, tdir, args.prefix)
+        run_server(args.port, tdir)
+
+        for url in build_urls(args.port, args.csvfile, args.prefix):
+            print(url)
+            input('Press enter to continue')
+
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('--port', default=9999)
+    parser.add_argument('--port', default=9999, type=int)
     parser.add_argument('dir')
+    parser.add_argument('-p', '--prefix', required=True)
+    parser.add_argument('-c', '--csvfile', required=True)
     main(parser.parse_args())
