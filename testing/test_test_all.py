@@ -14,8 +14,9 @@ def port():
 class Request(object):
 
     @classmethod
-    def get(cls, port, url='http://localhost'):
-        return cls(urllib.request.urlopen(':'.join([url, str(port)])))
+    def get(cls, port, url='http://localhost', timeout=None):
+        return cls(urllib.request.urlopen(':'.join([url, str(port)]),
+                                          timeout=timeout))
 
     def __init__(self, response):
         self.response = response
