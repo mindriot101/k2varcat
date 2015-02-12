@@ -5,6 +5,7 @@ import argparse
 from http.server import HTTPServer, SimpleHTTPRequestHandler
 import os
 import threading
+from contextlib import contextmanager
 
 
 class TestServer(object):
@@ -48,6 +49,15 @@ def build_prefix_structure(source_dir, root_dir, prefix):
     os.makedirs(top_level)
     os.symlink(source_dir, full_output_path)
     return full_output_path
+
+
+@contextmanager
+def change_directory(path):
+    old_path = os.getcwd()
+    try:
+        yield os.chdir(path)
+    finally:
+        os.chdir(old_path)
 
 
 def main(args):

@@ -58,3 +58,11 @@ def test_build_test_directory_links(tmpdir):
                                     prefix=prefix)
 
     assert os.path.lexists(os.path.join(str(tmpdir), 'a/b/c/test.html'))
+
+
+def test_change_directory(tmpdir):
+    start_path = os.getcwd()
+    with test_all.change_directory(str(tmpdir)):
+        assert os.getcwd() == str(tmpdir)
+
+    assert os.getcwd() == start_path
