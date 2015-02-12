@@ -87,7 +87,14 @@ def build_urls(port, filename, prefix=''):
                 port=port, epicid=epicid, prefix=prefix)
 
 
-def main(args):
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--port', default=9999, type=int)
+    parser.add_argument('dir')
+    parser.add_argument('-p', '--prefix', required=False, default='')
+    parser.add_argument('-c', '--csvfile', required=True)
+    args = parser.parse_args()
+
     with temporary_directory() as tdir:
         htmldir = build_prefix_structure(args.dir, tdir, args.prefix)
         server = ValidationServer.start(args.port, tdir)
@@ -98,9 +105,4 @@ def main(args):
 
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser()
-    parser.add_argument('--port', default=9999, type=int)
-    parser.add_argument('dir')
-    parser.add_argument('-p', '--prefix', required=True)
-    parser.add_argument('-c', '--csvfile', required=True)
-    main(parser.parse_args())
+    main()
