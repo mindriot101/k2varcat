@@ -15,7 +15,8 @@ from .tasks import render_page
 from .templates import RendersTemplates
 from .urls import build_stsci_url
 
-logging.basicConfig(level=logging.DEBUG, format='%(asctime)s|%(name)s|%(levelname)s|%(message)s')
+logging.basicConfig(
+    level=logging.DEBUG, format='%(asctime)s|%(name)s|%(levelname)s|%(message)s')
 logger = logging.getLogger(__name__)
 
 
@@ -95,7 +96,9 @@ class K2Var(object):
 def main():
     default_output = path.join(BASE_DIR, 'build')
     parser = argparse.ArgumentParser()
-    parser.add_argument('-r', '--root', default='', help='Application root. For phsnag: /phsnag/')
-    parser.add_argument('-o', '--output-dir', default=default_output, required=False)
+    parser.add_argument(
+        '-r', '--root', default='', help='Application root. For phsnag: /phsnag/')
+    parser.add_argument(
+        '-o', '--output-dir', default=default_output, required=False)
     parser.add_argument('-d', '--metadata-csv', required=True)
     K2Var(parser.parse_args()).render()
