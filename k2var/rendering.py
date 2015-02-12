@@ -20,7 +20,9 @@ except ImportError:
 from .data_store import DataStore
 from .templates import RendersTemplates
 
-logging.basicConfig(level=logging.DEBUG, format='%(asctime)s|%(name)s|%(levelname)s|%(message)s')
+logging.basicConfig(
+    level=logging.DEBUG,
+    format='%(asctime)s|%(name)s|%(levelname)s|%(message)s')
 logger = logging.getLogger(__name__)
 
 sns.set(context='poster', style='white', rc={'lines.markeredgewidth': 0.5})
