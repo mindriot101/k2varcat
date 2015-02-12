@@ -121,6 +121,18 @@ def test_build_list_of_test_urls_with_prefix(csvfile, port):
     ]
 
 
+def test_build_list_of_test_urls_bad_prefix(csvfile, port):
+    urls = test_all.build_urls(port, str(csvfile),
+                               prefix='badprefix')
+
+    assert list(urls) == [
+        'http://localhost:{port}/badprefix/objects/201122454.html'.format(
+            port=port),
+        'http://localhost:{port}/badprefix/objects/201123619.html'.format(
+            port=port),
+    ]
+
+
 def test_create_temporary_directory(tmpdir):
     dirname = str(tmpdir)
     with test_all.temporary_directory(dir=dirname) as tdirname:

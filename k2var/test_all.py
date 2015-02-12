@@ -75,6 +75,10 @@ def temporary_directory(*args, **kwargs):
 
 
 def build_urls(port, filename, prefix=''):
+    if prefix != '':
+        prefix = prefix if prefix.startswith('/') else '/' + prefix
+        prefix.rstrip('/')
+
     with open(filename) as infile:
         reader = csv.reader(infile)
         for row in reader:
