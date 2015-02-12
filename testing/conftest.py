@@ -40,3 +40,9 @@ def filename_campaign_1(epicid_campaign_1, base_dir):
 def change_data_dir(base_dir, monkeypatch):
     monkeypatch.setattr('k2var.paths.DATA_DIR',
                         path.join(base_dir, 'testing', 'fixtures'))
+
+
+@pytest.fixture
+def csvfile(base_dir):
+    return path.join(base_dir, 'testing', 'fixtures',
+                        'K2VarCat.csv')
