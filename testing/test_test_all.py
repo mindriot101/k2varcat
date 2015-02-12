@@ -49,9 +49,10 @@ def test_kill_server(port):
     s = test_all.run_server(port)
     response = Request.get(port)
     assert response.status_code == 200
+
     s.kill_webserver()
     with pytest.raises(socket.timeout) as err:
-        response = Request.get(port, timeout=2)
+        response = Request.get(port, timeout=0.5)
 
 
 def test_build_test_directory_links(tmpdir):
