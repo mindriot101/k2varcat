@@ -47,6 +47,7 @@ def build_prefix_structure(source_dir, root_dir, prefix):
     top_level = os.path.dirname(full_output_path)
     os.makedirs(top_level)
     os.symlink(source_dir, full_output_path)
+    return full_output_path
 
 
 def main(args):
