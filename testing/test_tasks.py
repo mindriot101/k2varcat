@@ -12,15 +12,15 @@ from k2var import tasks
 
 
 @pytest.fixture
-def db():
-    return Database('k2var/K2VarCat.csv')
+def db(csvfile):
+    return Database(csvfile)
 
 
 @pytest.fixture
-def ensure_output_dir(tmpdir):
+def ensure_output_dir(tmpdir, csvfile):
     output_dir = str(tmpdir)
     args = mock.Mock(root='/', output_dir=output_dir,
-                     metadata_csv='k2var/K2VarCat.csv')
+                     metadata_csv=csvfile)
     app = cli.K2Var(args)
     app.ensure_output_dir()
     return output_dir

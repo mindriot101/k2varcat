@@ -39,10 +39,10 @@ def test_build_output_paths(app):
                                 path.join(out_root, 'static')]
 
 
-def test_ensure_output_dirs(tmpdir):
+def test_ensure_output_dirs(csvfile, tmpdir):
     app = cli.K2Var(build_args('root',
                                str(tmpdir.join('output')),
-                               'k2var/K2VarCat.csv'))
+                                csvfile))
     app.ensure_output_dir()
 
     assert all(list(map(path.isdir, [
