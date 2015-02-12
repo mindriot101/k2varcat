@@ -32,7 +32,6 @@ class Request(object):
 
 def test_run_server(port):
     s = test_all.run_server(port)
-    s.join(0.1)
     response = Request.get(port)
     assert response.status_code == 200
 
