@@ -45,9 +45,14 @@ class K2Var(object):
     def render(self):
         logger.debug('Arguments: %s', self.args)
         self.ensure_output_dir()
+        self.copy_csv_file()
         self.render_static()
         self.render_index_page()
         self.render_detail_pages()
+
+    def copy_csv_file(self):
+        shutil.copyfile(self.args.metadata_csv,
+                        path.join(self.args.output_dir, 'K2VarCat.csv'))
 
     def render_static(self):
         logger.info('Rendering static files')
