@@ -105,3 +105,11 @@ def test_build_list_of_test_urls(tmpdir, port):
         'http://localhost:{port}/objects/201122454.html'.format(port=port),
         'http://localhost:{port}/objects/201123619.html'.format(port=port),
     ]
+
+
+def test_create_temporary_directory(tmpdir):
+    dirname = str(tmpdir)
+    with test_all.temporary_directory(dir=dirname) as tdirname:
+        assert os.path.isdir(tdirname)
+
+    assert not os.path.isdir(tdirname)

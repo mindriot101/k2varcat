@@ -7,6 +7,8 @@ import os
 import threading
 from contextlib import contextmanager
 import csv
+import tempfile
+import shutil
 
 
 class TestServer(object):
@@ -63,6 +65,15 @@ def change_directory(path):
         os.chdir(old_path)
 
 
+@contextmanager
+def temporary_directory(*args, **kwargs):
+    try:
+        tdir = tempfile.mkdtemp(*args, **kwargs)
+        yield tdir
+    finally:
+        shutil.rmtree(tdir)
+
+
 def build_urls(port, filename):
     with open(filename) as infile:
         reader = csv.reader(infile)
@@ -78,4 +89,5 @@ def main(args):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--port', default=9999)
+    parser.add_argument('dir')
     main(parser.parse_args())
