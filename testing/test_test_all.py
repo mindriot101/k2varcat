@@ -1,10 +1,10 @@
 import urllib.request
-import csv
 import os
 import pytest
 import random
 import string
 import socket
+from io import StringIO
 
 from k2var import test_all
 
@@ -93,3 +93,15 @@ def test_start_server_in_source_dir(tmpdir, port, random_filename):
     contents = response.contents
     assert response.status_code == 200
     assert random_filename in contents
+
+
+def test_build_list_of_test_urls(tmpdir, port):
+    file_contents = tmpdir.join('data.csv')
+    file_contents.write('201122454,AP,0.84,0.000000,0.00,,1.002794,0.996079\n'
+                        '201123619,AP,1.31,0.000000,0.00,,1.003451,0.993472\n')
+
+    urls = test_all.build_urls(port, str(file_contents))
+    assert list(urls) == [
+        'http://localhost:{port}/objects/201122454.html'.format(port=port),
+        'http://localhost:{port}/objects/201123619.html'.format(port=port),
+    ]

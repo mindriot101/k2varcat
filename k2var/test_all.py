@@ -6,6 +6,7 @@ from http.server import HTTPServer, SimpleHTTPRequestHandler
 import os
 import threading
 from contextlib import contextmanager
+import csv
 
 
 class TestServer(object):
@@ -60,6 +61,15 @@ def change_directory(path):
         yield os.chdir(path)
     finally:
         os.chdir(old_path)
+
+
+def build_urls(port, filename):
+    with open(filename) as infile:
+        reader = csv.reader(infile)
+        for row in reader:
+            epicid = row[0]
+            yield 'http://localhost:{port}/objects/{epicid}.html'.format(
+                port=port, epicid=epicid)
 
 
 def main(args):
