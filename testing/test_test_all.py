@@ -22,6 +22,10 @@ class Request(object):
         self.response = response
 
     @property
+    def contents(self):
+        return self.response.read().decode('utf-8')
+
+    @property
     def status_code(self):
         return self.response.status
 
