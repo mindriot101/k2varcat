@@ -7,23 +7,38 @@ import os
 import threading
 
 
-class TestServer(threading.Thread):
+class TestServer(object):
 
     def __init__(self, port):
-        threading.Thread.__init__(self)
         self.port = port
-
-    def run(self):
         server_address = ('', self.port)
-        httpd = HTTPServer(server_address,
-                           SimpleHTTPRequestHandler)
-        httpd.serve_forever()
+        self.webserver = HTTPServer(server_address,
+                                    SimpleHTTPRequestHandler)
+
+    def start_webserver(self):
+        self._webserver_died = threading.Event()
+        self._webserver_thread = threading.Thread(
+            target=self._run_webserver_thread)
+        self._webserver_thread.daemon = True
+        self._webserver_thread.start()
+
+    def _run_webserver_thread(self):
+        self.webserver.serve_forever()
+        self._webserver_died.set()
+
+    def kill_webserver(self):
+        if not self._webserver_thread:
+            return
+
+        self.webserver.shutdown()
+
+        if not self._webserver_died.wait(5):
+            raise ValueError("Could not kill webserver")
 
 
 def run_server(port):
     s = TestServer(port)
-    s.daemon = True
-    s.start()
+    s.start_webserver()
     return s
 
 

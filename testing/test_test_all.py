@@ -1,7 +1,9 @@
 import urllib.request
 import csv
 import os
+import pytest
 import random
+import socket
 
 from k2var import test_all
 
@@ -34,6 +36,15 @@ def test_run_server(port):
     s = test_all.run_server(port)
     response = Request.get(port)
     assert response.status_code == 200
+
+
+def test_kill_server(port):
+    s = test_all.run_server(port)
+    response = Request.get(port)
+    assert response.status_code == 200
+    s.kill_webserver()
+    with pytest.raises(socket.timeout) as err:
+        response = Request.get(port, timeout=2)
 
 
 def test_build_test_directory_links(tmpdir):
