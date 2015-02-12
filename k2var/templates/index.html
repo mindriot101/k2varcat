@@ -18,21 +18,7 @@
 
 <div class="row-fluid">
     <div class="col-md-12">
-        <h4>Field descriptions</h4>
-        <dl class="dl-horizontal">
-            <dt>EPIC ID</dt>
-            <dd>Epic catalogue identifier. Click on the ID to get to the detail page showing the raw, detrended and phase folded lightcurves, along with a link to download the detrended photometry as a fits file.</dd>
-            <dt>Type</dt>
-            <dd>Classification, EB: Eclipsing binary, AP: Aperiodic (or period longer than 15d), QP: Quasiperiodic (period and/or amplitude changes), P: Strictly sinusoidal periodic.</dd>
-            <dt>Range (%)</dt>
-            <dd>Maximum to Minimum range of binned lightcurve. Percentage is relative to the median flux level.</dd>
-            <dt>Period (d)</dt>
-            <dd>Lomb-Scargle periodogram peak. Zero for Aperiodic systems.</dd>
-            <dt>Amplitude (%)</dt>
-            <dd>Semi-amplitude of lightcurve phase folded and binned at stated period. Percentage is relative to the median flux level. Zero for Aperiodic systems.</dd>
-            <dt>Proposal Information</dt>
-            <dd>If object is from a variable star related proposal: Proposal Number, and variable star type in brackets.</dd>
-        </dl>
+        {% include "field_descriptions.html" %}
     </div>
 </div>
 
