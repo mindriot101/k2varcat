@@ -3,6 +3,7 @@ import csv
 import os
 import pytest
 import random
+import string
 import socket
 
 from k2var import test_all
@@ -11,6 +12,12 @@ from k2var import test_all
 @pytest.fixture(scope='function')
 def port():
     return random.randint(10000, 15000)
+
+
+@pytest.fixture(scope='function')
+def random_filename():
+    return ''.join([random.choice(string.ascii_lowercase)
+                    for _ in range(100)]) + '.html'
 
 
 class Request(object):
@@ -66,3 +73,22 @@ def test_change_directory(tmpdir):
         assert os.getcwd() == str(tmpdir)
 
     assert os.getcwd() == start_path
+
+
+def test_start_server_in_source_dir(tmpdir, port, random_filename):
+    prefix = '/a/b/c'
+    source_dir = tmpdir.mkdir('source')
+    test_file = source_dir.join(random_filename)
+    test_file.write('Hello world')
+    assert test_file.check()
+
+    result_dir = test_all.build_prefix_structure(source_dir=str(source_dir),
+                                                 root_dir=str(tmpdir),
+                                                 prefix=prefix)
+
+    test_all.run_server(port, path=result_dir)
+
+    response = Request.get(port)
+    contents = response.contents
+    assert response.status_code == 200
+    assert random_filename in contents

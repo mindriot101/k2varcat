@@ -10,8 +10,9 @@ from contextlib import contextmanager
 
 class TestServer(object):
 
-    def __init__(self, port):
+    def __init__(self, port, path):
         self.port = port
+        self.path = path if path is not None else os.getcwd()
         server_address = ('', self.port)
         self.webserver = HTTPServer(server_address,
                                     SimpleHTTPRequestHandler)
@@ -24,8 +25,9 @@ class TestServer(object):
         self._webserver_thread.start()
 
     def _run_webserver_thread(self):
-        self.webserver.serve_forever()
-        self._webserver_died.set()
+        with change_directory(self.path):
+            self.webserver.serve_forever()
+            self._webserver_died.set()
 
     def kill_webserver(self):
         if not self._webserver_thread:
@@ -37,8 +39,8 @@ class TestServer(object):
             raise ValueError("Could not kill webserver")
 
 
-def run_server(port):
-    s = TestServer(port)
+def run_server(port, path=None):
+    s = TestServer(port, path)
     s.start_webserver()
     return s
 
