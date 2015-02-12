@@ -114,7 +114,8 @@ class TableRenderer(object):
 
     def render(self):
         keys, values = alphabetical_items(self.meta)
-        return render_template(self.url_root, 'table', keys=keys, values=values)
+        return render_template(self.url_root, 'table',
+                keys=keys, values=values)
 
 
 class LightcurvePlotter(object):
