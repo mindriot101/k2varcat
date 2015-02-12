@@ -74,13 +74,13 @@ def temporary_directory(*args, **kwargs):
         shutil.rmtree(tdir)
 
 
-def build_urls(port, filename):
+def build_urls(port, filename, prefix=''):
     with open(filename) as infile:
         reader = csv.reader(infile)
         for row in reader:
             epicid = row[0]
-            yield 'http://localhost:{port}/objects/{epicid}.html'.format(
-                port=port, epicid=epicid)
+            yield 'http://localhost:{port}{prefix}/objects/{epicid}.html'.format(
+                port=port, epicid=epicid, prefix=prefix)
 
 
 def main(args):

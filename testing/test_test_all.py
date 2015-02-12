@@ -20,6 +20,14 @@ def random_filename():
                     for _ in range(100)]) + '.html'
 
 
+@pytest.fixture
+def csvfile(tmpdir):
+    file_contents = tmpdir.join('data.csv')
+    file_contents.write('201122454,AP,0.84,0.000000,0.00,,1.002794,0.996079\n'
+                        '201123619,AP,1.31,0.000000,0.00,,1.003451,0.993472\n')
+    return file_contents
+
+
 class Request(object):
 
     @classmethod
@@ -95,15 +103,21 @@ def test_start_server_in_source_dir(tmpdir, port, random_filename):
     assert random_filename in contents
 
 
-def test_build_list_of_test_urls(tmpdir, port):
-    file_contents = tmpdir.join('data.csv')
-    file_contents.write('201122454,AP,0.84,0.000000,0.00,,1.002794,0.996079\n'
-                        '201123619,AP,1.31,0.000000,0.00,,1.003451,0.993472\n')
-
-    urls = test_all.build_urls(port, str(file_contents))
+def test_build_list_of_test_urls_no_prefix(csvfile, port):
+    urls = test_all.build_urls(port, str(csvfile))
     assert list(urls) == [
         'http://localhost:{port}/objects/201122454.html'.format(port=port),
         'http://localhost:{port}/objects/201123619.html'.format(port=port),
+    ]
+
+
+def test_build_list_of_test_urls_with_prefix(csvfile, port):
+    urls = test_all.build_urls(port, str(csvfile),
+                               prefix='/test')
+
+    assert list(urls) == [
+        'http://localhost:{port}/test/objects/201122454.html'.format(port=port),
+        'http://localhost:{port}/test/objects/201123619.html'.format(port=port),
     ]
 
 
