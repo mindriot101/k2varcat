@@ -36,6 +36,12 @@ def render_template(url_root, template_stub, **context):
     return renderer.render(template_stub, **context)
 
 
+def alphabetical_items(d):
+    keys, _ = list(zip(*d.items()))
+    keys = sorted(keys)
+    return keys, [d[key] for key in keys]
+
+
 class Plotter(object):
 
     colours = sns.color_palette(n_colors=5)
@@ -107,7 +113,7 @@ class TableRenderer(object):
         self.meta = meta
 
     def render(self):
-        keys, values = zip(*self.meta.items())
+        keys, values = alphabetical_items(self.meta)
         return render_template(self.url_root, 'table', keys=keys, values=values)
 
 
