@@ -9,7 +9,7 @@ from k2var import rendering
 
 @pytest.fixture
 def meta():
-    return mock.Mock(items=lambda: [('a', 'b')])
+    return {'a': 'b'}
 
 
 @pytest.fixture
