@@ -1,8 +1,14 @@
 import urllib.request
 import csv
 import os
+import random
 
 from k2var import test_all
+
+
+@pytest.fixture(scope='function')
+def port():
+    return random.randint(10000, 15000)
 
 
 class Request(object):
@@ -19,8 +25,7 @@ class Request(object):
         return self.response.status
 
 
-def test_run_server():
-    port = 10105
+def test_run_server(port):
     s = test_all.run_server(port)
     s.join(0.1)
     response = Request.get(port)
