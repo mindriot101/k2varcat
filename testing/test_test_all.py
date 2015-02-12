@@ -48,13 +48,13 @@ class Request(object):
 
 
 def test_run_server(port):
-    s = test_all.run_server(port)
+    s = test_all.ValidationServer.start(port)
     response = Request.get(port)
     assert response.status_code == 200
 
 
 def test_kill_server(port):
-    s = test_all.run_server(port)
+    s = test_all.ValidationServer.start(port)
     response = Request.get(port)
     assert response.status_code == 200
 
@@ -95,7 +95,7 @@ def test_start_server_in_source_dir(tmpdir, port, random_filename):
                                                  root_dir=str(tmpdir),
                                                  prefix=prefix)
 
-    test_all.run_server(port, path=result_dir)
+    test_all.ValidationServer.start(port, path=result_dir)
 
     response = Request.get(port)
     contents = response.contents

@@ -11,7 +11,7 @@ import tempfile
 import shutil
 
 
-class TestServer(object):
+class ValidationServer(object):
 
     def __init__(self, port, path):
         self.port = port
@@ -41,11 +41,11 @@ class TestServer(object):
         if not self._webserver_died.wait(5):
             raise ValueError("Could not kill webserver")
 
-
-def run_server(port, path=None):
-    s = TestServer(port, path)
-    s.start_webserver()
-    return s
+    @classmethod
+    def start(cls, port, path=None):
+        self = cls(port, path)
+        self.start_webserver()
+        return self
 
 
 def build_prefix_structure(source_dir, root_dir, prefix):
@@ -90,7 +90,7 @@ def build_urls(port, filename, prefix=''):
 def main(args):
     with temporary_directory() as tdir:
         htmldir = build_prefix_structure(args.dir, tdir, args.prefix)
-        run_server(args.port, tdir)
+        server = ValidationServer.start(args.port, tdir)
 
         for url in build_urls(args.port, args.csvfile, args.prefix):
             print(url)
