@@ -1,7 +1,9 @@
 from astropy.io import fits as pyfits
 from os import path
 import csv
+
 from .paths import data_file_path
+from .constants import CAMPAIGNS_DEFAULT
 
 
 class DataStore(object):
@@ -15,20 +17,21 @@ class DataStore(object):
 
 class Database(object):
 
-    DATA_NAME = path.join(
-        path.dirname(__file__),
-        'K2VarCat.csv')
-
-    def __init__(self):
+    def __init__(self, csv_filename):
+        self.csv_filename = csv_filename
         self.data = self.load_data()
 
-    def get(self, epicid):
-        return self.data[epicid]
+    def get(self, epicid, campaigns=None):
+        campaigns = campaigns if campaigns is not None else CAMPAIGNS_DEFAULT
+        for campaign in campaigns:
+            if path.lexists(data_file_path(epicid, campaign=campaign)):
+                orig = self.data[epicid]
+                orig.update(campaign=campaign)
+                return orig
 
-    @classmethod
-    def load_data(cls):
+    def load_data(self):
         out = {}
-        with open(cls.DATA_NAME) as infile:
+        with open(self.csv_filename) as infile:
             reader = csv.DictReader(infile,
                                     fieldnames=['epicid', 'type',
                                                 'range', 'period', 'amplitude'])
@@ -41,10 +44,12 @@ class Database(object):
                 }
         return out
 
-    def valid_epic_ids(self):
+    def valid_epic_ids(self, campaigns=None):
+        campaigns = campaigns if campaigns is not None else CAMPAIGNS_DEFAULT
         for epicid in self:
-            if path.isfile(data_file_path(epicid)):
-                yield epicid
+            for campaign in campaigns:
+                if path.lexists(data_file_path(epicid, campaign=campaign)):
+                    yield epicid, campaign
 
     def __iter__(self):
         return iter(self.data)

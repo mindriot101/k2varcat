@@ -20,7 +20,9 @@ except ImportError:
 from .data_store import DataStore
 from .templates import RendersTemplates
 
-logging.basicConfig(level=logging.DEBUG, format='%(asctime)s|%(name)s|%(levelname)s|%(message)s')
+logging.basicConfig(
+    level=logging.DEBUG,
+    format='%(asctime)s|%(name)s|%(levelname)s|%(message)s')
 logger = logging.getLogger(__name__)
 
 sns.set(context='poster', style='white', rc={'lines.markeredgewidth': 0.5})
@@ -32,6 +34,12 @@ DETFLUX_LABEL = r'Detrended flux'
 def render_template(url_root, template_stub, **context):
     renderer = RendersTemplates(url_root)
     return renderer.render(template_stub, **context)
+
+
+def alphabetical_items(d):
+    keys, _ = list(zip(*d.items()))
+    keys = sorted(keys)
+    return keys, [d[key] for key in keys]
 
 
 class Plotter(object):
@@ -105,8 +113,9 @@ class TableRenderer(object):
         self.meta = meta
 
     def render(self):
-        keys, values = zip(*self.meta.items())
-        return render_template(self.url_root, 'table', keys=keys, values=values)
+        keys, values = alphabetical_items(self.meta)
+        return render_template(self.url_root, 'table',
+                keys=keys, values=values)
 
 
 class LightcurvePlotter(object):

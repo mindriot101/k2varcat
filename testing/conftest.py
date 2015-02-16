@@ -2,7 +2,6 @@ import pytest
 from os import path
 import glob
 
-ALLOWED_IDS = ['202059224', '202059221', '202059229']
 BASEDIR = path.join(
     path.dirname(__file__),
     '..')
@@ -14,10 +13,36 @@ def base_dir():
 
 
 @pytest.fixture(scope='session')
-def epicid(base_dir):
-    files = glob.glob('{}/*.fits'.format(
-        path.join(base_dir, 'data')))
-    for fname in files:
-        for i in ALLOWED_IDS:
-            if i in fname:
-                return i
+def epicid_campaign_0():
+    return 202059221
+
+
+@pytest.fixture(scope='session')
+def epicid_campaign_1():
+    return 201122454
+
+
+@pytest.fixture(scope='session')
+def filename_campaign_0(epicid_campaign_0, base_dir):
+    return path.join(base_dir, 'testing', 'fixtures',
+                     'ktwo{epicid}-c00_lpd-targ_X_D.fits'.format(
+                         epicid=epicid_campaign_0))
+
+
+@pytest.fixture(scope='session')
+def filename_campaign_1(epicid_campaign_1, base_dir):
+    return path.join(base_dir, 'testing', 'fixtures',
+                     'ktwo{epicid}-c01_lpd-targ_X_D.fits'.format(
+                         epicid=epicid_campaign_1))
+
+
+@pytest.fixture(autouse=True)
+def change_data_dir(base_dir, monkeypatch):
+    monkeypatch.setattr('k2var.paths.DATA_DIR',
+                        path.join(base_dir, 'testing', 'fixtures'))
+
+
+@pytest.fixture
+def csvfile(base_dir):
+    return path.join(base_dir, 'testing', 'fixtures',
+                        'K2VarCat.csv')

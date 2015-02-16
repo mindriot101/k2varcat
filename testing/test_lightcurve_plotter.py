@@ -2,11 +2,7 @@ import jinja2
 try:
     import mock
 except ImportError:
-    import sys
-    if sys.version_info.major == 3:
-        from unittest import mock
-    else:
-        raise
+    from unittest import mock
 import pytest
 
 from k2var import rendering

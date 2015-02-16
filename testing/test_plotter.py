@@ -1,5 +1,8 @@
 from matplotlib.pyplot import Figure
-from unittest import mock
+try:
+    from unittest import mock
+except ImportError:
+    import mock
 import pytest
 
 from k2var import rendering

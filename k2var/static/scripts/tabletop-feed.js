@@ -3,7 +3,7 @@ var jqueryNoConflict = jQuery;
 // begin main function
 jqueryNoConflict(document).ready(function(){
 
-    initializeTabletopObject('https://docs.google.com/spreadsheets/d/1bMAK93yQHJ0N1x1j3TRQRshByGk9ofED-xnZb_Xnzvc/pubhtml');
+    initializeTabletopObject('https://docs.google.com/spreadsheets/d/11Y0WIAQwOVJi-2mP9oVEzHg1EActd6sNxaYfwZT1SB4/pubhtml?gid=0&single=true');
 
 });
 

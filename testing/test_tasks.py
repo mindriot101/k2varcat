@@ -12,29 +12,34 @@ from k2var import tasks
 
 
 @pytest.fixture
-def db():
-    return Database()
+def db(csvfile):
+    return Database(csvfile)
 
 
 @pytest.fixture
-def valid_epicid(db):
-    return list(itertools.islice(db.valid_epic_ids(), 1))[0]
-
-
-@pytest.fixture
-def ensure_output_dir(tmpdir):
+def ensure_output_dir(tmpdir, csvfile):
     output_dir = str(tmpdir)
-    args = mock.Mock(root='/', output_dir=output_dir)
+    args = mock.Mock(root='/', output_dir=output_dir,
+                     metadata_csv=csvfile)
     app = cli.K2Var(args)
     app.ensure_output_dir()
     return output_dir
 
 
-def test_render_page(valid_epicid, ensure_output_dir):
+def test_render_page_campaign_0(epicid_campaign_0, db, ensure_output_dir):
     output_dir = ensure_output_dir
     root_url = '/'
-    tasks.render_page(output_dir, root_url, valid_epicid)
+    meta = {'period': 1., 'range': 1.}
+    tasks.render_page(output_dir, root_url, epicid_campaign_0, campaign=0, metadata=meta)
 
-    assert os.path.isfile(
-        os.path.join(output_dir, 'objects', '{}.html'.format(valid_epicid)
-                     ))
+    assert os.path.lexists(
+        os.path.join(output_dir, 'objects', '{}.html'.format(epicid_campaign_0)))
+
+def test_render_page_campaign_1(epicid_campaign_1, db, ensure_output_dir):
+    output_dir = ensure_output_dir
+    root_url = '/'
+    meta = {'period': 1., 'range': 1.}
+    tasks.render_page(output_dir, root_url, epicid_campaign_1, campaign=1, metadata=meta)
+
+    assert os.path.lexists(
+        os.path.join(output_dir, 'objects', '{}.html'.format(epicid_campaign_1)))

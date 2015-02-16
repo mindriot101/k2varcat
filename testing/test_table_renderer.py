@@ -1,4 +1,7 @@
-from unittest import mock
+try:
+    from unittest import mock
+except ImportError:
+    import mock
 import pytest
 
 from k2var import rendering
@@ -6,7 +9,7 @@ from k2var import rendering
 
 @pytest.fixture
 def meta():
-    return mock.Mock(items=lambda: [('a', 'b')])
+    return {'a': 'b'}
 
 
 @pytest.fixture
@@ -26,3 +29,20 @@ def render_content(renderer):
 
 def test_table_renderer_render_content(url_root, render_content):
     assert '<th>A</th>' in render_content and '<td>b</td>' in render_content
+
+
+def test_alphabetical_items():
+    d = {'b': 10, 'c': 15, 'a': 1}
+    assert rendering.alphabetical_items(d) == (
+        ['a', 'b', 'c'],
+        [1, 10, 15])
+
+
+@mock.patch('k2var.rendering.render_template')
+def test_keys_in_alphabetical_order(render_template, url_root):
+    meta = {'b': 'bvalue', 'a': 'avalue'}
+    renderer = rendering.TableRenderer(url_root, meta)
+    renderer.render()
+    render_template.assert_called_once_with(url_root, 'table',
+                                            keys=['a', 'b'],
+                                            values=['avalue', 'bvalue'])

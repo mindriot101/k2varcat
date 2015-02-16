@@ -9,5 +9,6 @@ setup(
                       'jinja2'],
     entry_points={'console_scripts': [
         'k2var-build = k2var.cli:main',
+        'k2var-validation-server = k2var.test_all:main',
     ]},
     packages=['k2var'])
