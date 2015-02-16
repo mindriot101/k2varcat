@@ -10,3 +10,4 @@ queue/*
 !queue/.gitkeep
 !var/run/.gitkeep
 var/run/*
+campaigns/*
