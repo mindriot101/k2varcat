@@ -32,26 +32,20 @@
 
 <div class="row-fluid">
     <div class="col-md-12">
-        <div id="demo">
-            <div class="progress">
-                <div id="progress-bar" class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%">
-                    <span class="sr-only">45% Complete</span>
-                </div>
-            </div>
-        </div>
+        <table id="summary">
+            <thead>
+                <tr>
+                    <td>EPIC ID</td>
+                    <td>Type</td>
+                    <td>Range</td>
+                    <td>Period</td>
+                    <td>Amplitude</td>
+                    <td>Proposal Information</td>
+                </tr>
+            </thead>
+        </table>
     </div>
 </div>
 
-<script src="http://cdnjs.cloudflare.com/ajax/libs/datatables/1.9.4/jquery.dataTables.min.js"></script>
-<script src="{{ url_for('static', filename='scripts/tabletop.js') }}"></script>
-<script src="{{ url_for('static', filename='scripts/tabletop-feed.js') }}"></script>
-<script src="{{ url_for('static', filename='scripts/data-tables-bootstrap.js') }}"></script>
-<script src="{{ url_for('static', filename='scripts/bootstrap-dropdown.js') }}"></script>
-<script type="text/javascript">
-    {% if app_root is none %}
-        render_table(this, "");
-    {% else %}
-        render_table(this, "{{ app_root }}");
-    {% endif %}
-</script>
+<script type="text/javascript" src="{{ url_for('static', filename='js/table.js') }}"></script>
 {% endblock %}
