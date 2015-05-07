@@ -1,6 +1,6 @@
 $(function() {
     $('#summary').DataTable({
-        processing: true,
+        processing: false,
         pageLength: 25,
         ajax: {
             url: "https://spreadsheets.google.com/feeds/list/11Y0WIAQwOVJi-2mP9oVEzHg1EActd6sNxaYfwZT1SB4/od6/public/values?alt=json",
