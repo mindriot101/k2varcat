@@ -15,4 +15,12 @@ $(function() {
             { "data": "gsx$proposal.$t" },
         ],
     });
+
+    /* Add click handler to each row to open detail page */
+    $('#summary tbody').on('click', 'tr', function() {
+        var epic_id = $('td', this).eq(0).text();
+        var url = "/objects/" + epic_id + ".html";
+        window.open(url, epic_id, "");
+        return false;
+    });
 });
