@@ -10,5 +10,6 @@ setup(
     entry_points={'console_scripts': [
         'k2var-build = k2var.cli:main',
         'k2var-validation-server = k2var.test_all:main',
+        'k2var-pngs = k2var.only_pngs:main',
     ]},
     packages=['k2var'])
