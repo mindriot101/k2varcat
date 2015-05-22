@@ -1,10 +1,10 @@
 import pytest
-from k2var import only_pngs as o
+from k2var import epic as e
 
 
 @pytest.fixture
 def epic():
-    return o.Epic(epicid=201644120, campaign=1)
+    return e.Epic(epicid=201644120, campaign=1)
 
 
 def test_campaign_top_level(epic):
@@ -18,7 +18,7 @@ def test_epic_top_level(epic):
 @pytest.mark.parametrize('input,expected', [((201644120, 1), '44000'),
                                             ((201645050, 1), '45000'),])
 def test_epic_bottom_level(input, expected):
-    assert o.Epic(*input).bottom_level == expected
+    assert e.Epic(*input).bottom_level == expected
 
 
 def test_output_dir(epic):
