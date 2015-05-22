@@ -2,6 +2,7 @@ import argparse
 import os
 
 from .paths import BASE_DIR
+from .data_store import Database
 
 
 class Epic(object):
@@ -26,6 +27,20 @@ class Epic(object):
         return os.path.join(root, self.campaign_dir, self.top_level, self.bottom_level)
 
 
+class K2VarPngs(object):
+
+    def __init__(self, args):
+        self.db = Database(args.metadata_csv)
+        self.output_dir = args.output_dir
+
+    def render(self):
+        for epicid, campaign in self.db.valid_epic_ids():
+            epic = Epic(epicid, campaign)
+            output_dir = self.ensure_output_dir(epic)
+
+    def ensure_output_dir(self, epic):
+        dirname = epic.output_dir(self.output_dir)
+        print(dirname)
 
 
 def main():
@@ -36,4 +51,4 @@ def main():
                         help='Application root. For phsnag: /phsnag/')
     parser.add_argument('-o', '--output-dir', default=default_output, required=False)
     parser.add_argument('-d', '--metadata-csv', required=True)
-    only_pngs(parser.parse_args())
+    K2VarPngs(parser.parse_args()).render()
