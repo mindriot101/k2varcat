@@ -126,16 +126,19 @@ class LightcurvePlotter(object):
         self.filename = filename
         self.data_store = DataStore(self.filename)
 
-    def raw_lightcurve(self):
+    def raw_lightcurve_plotter(self):
         return Plotter(
             self.url_root,
             self.data_store['time'],
             self.data_store['aptflux'],
             self.data_store['aptflux_err'],
             xlabel=r'BJD',
-        ).render()
+        )
 
-    def detrended_lightcurve(self):
+    def raw_lightcurve(self):
+        return self.raw_lightcurve_plotter().render()
+
+    def detrended_lightcurve_plotter(self):
         yerr = (self.data_store['detflux'] * (self.data_store['aptflux_err'] /
                                               self.data_store['aptflux']))
         return Plotter(
@@ -146,9 +149,12 @@ class LightcurvePlotter(object):
             xlabel='BJD',
             ylabel=DETFLUX_LABEL,
             ylims=self.range_ylims(),
-        ).render()
+        )
 
-    def phase_folded(self):
+    def detrended_lightcurve(self):
+        return self.detrended_lightcurve_plotter().render()
+
+    def phase_folded_plotter(self):
         period = self.meta['period']
         yerr = (self.data_store['detflux'] * (self.data_store['aptflux_err'] /
                                               self.data_store['aptflux']))
@@ -162,9 +168,12 @@ class LightcurvePlotter(object):
                 xlabel=PHASE_LABEL,
                 ylabel=DETFLUX_LABEL,
                 ylims=self.range_ylims(),
-            ).render()
+            )
         else:
-            return EmptyPlot(self.url_root).render()
+            return EmptyPlot(self.url_root)
+
+    def phase_folded(self):
+        return self.phase_folded_plotter().render()
 
     def render(self):
         return render_template(self.url_root, 'plots',
