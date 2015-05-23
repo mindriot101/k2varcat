@@ -1,6 +1,7 @@
 import os
 
 from .rendering import LightcurvePlotter
+from .paths import data_file_path
 
 class Epic(object):
 
@@ -28,7 +29,7 @@ class Epic(object):
 
     @property
     def data_filename(self):
-        return lightcurve_filename(self.epicid, self.campaign)
+        return data_file_path(self.epicid, self.campaign)
 
     def png_filename_stub(self, typ):
         valid_types = {'orig', 'detrend', 'phase'}
@@ -44,3 +45,16 @@ class Epic(object):
     def png_filename(self, root, typ):
         return os.path.join(self.output_dir(root),
                 self.png_filename_stub(typ))
+
+    def render(self, root, typ, meta):
+        fname = self.png_filename(root, typ)
+        if typ.lower() == 'orig':
+            plotter = self.plotter(meta).raw_lightcurve_plotter()
+        elif typ.lower() == 'detrend':
+            plotter = self.plotter(meta).detrended_lightcurve_plotter()
+        elif typ.lower() == 'phase':
+            plotter = self.plotter(meta).phase_folded_plotter()
+        figure = plotter.figure()
+        figure.tight_layout()
+        figure.savefig(fname)
+

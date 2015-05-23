@@ -6,10 +6,11 @@ import socket
 from celery import Celery
 from .data_store import Database
 from .paths import (data_file_path, detail_output_path, BASE_DIR,
-                    lightcurve_filename)
+                    lightcurve_filename, ensure_dir)
 from .templates import RendersTemplates
 from .urls import build_stsci_url
 from .rendering import LightcurvePlotter, TableRenderer
+from .epic import Epic
 
 
 def devel():
@@ -55,3 +56,11 @@ def render_page(output_dir, root_url, epicid, campaign, metadata):
         stsci_url=build_stsci_url(epicid, campaign=campaign),
         parameters_table=TableRenderer(root_url, metadata).render(),
         lightcurves=LightcurvePlotter(root_url, metadata, filename).render())
+
+@app.task
+def render_only_png(output_dir, epicid, campaign, metadata):
+    epic = Epic(epicid, campaign)
+    output_path = epic.output_dir(root=output_dir)
+    ensure_dir(output_path)
+    for typ in ['orig', 'detrend', 'phase']:
+        epic.render(root=output_dir, typ=typ, meta=metadata)

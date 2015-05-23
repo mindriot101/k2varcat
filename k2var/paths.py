@@ -1,15 +1,15 @@
-from os import path
+import os
 
-BASE_DIR = path.realpath(
-    path.join(
-        path.dirname(__file__), '..'))
+BASE_DIR = os.path.realpath(
+    os.path.join(
+        os.path.dirname(__file__), '..'))
 
-PACKAGE_DIR = path.realpath(
-    path.join(
+PACKAGE_DIR = os.path.realpath(
+    os.path.join(
         BASE_DIR, __name__.split('.')[0]))
 
-DATA_DIR = path.realpath(
-    path.join(
+DATA_DIR = os.path.realpath(
+    os.path.join(
         BASE_DIR, 'data'))
 
 
@@ -19,8 +19,16 @@ def lightcurve_filename(epicid, campaign=0):
 
 
 def data_file_path(epicid, campaign=0):
-    return path.join(DATA_DIR, lightcurve_filename(epicid, campaign))
+    return os.path.join(DATA_DIR, lightcurve_filename(epicid, campaign))
 
 
 def detail_output_path(epicid, output_dir):
-    return path.join(output_dir, 'objects', '{}.html'.format(epicid))
+    return os.path.join(output_dir, 'objects', '{}.html'.format(epicid))
+
+def ensure_dir(path):
+    try:
+        os.makedirs(path)
+    except FileExistsError:
+        pass
+    finally:
+        assert os.path.isdir(path)
