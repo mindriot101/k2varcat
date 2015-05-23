@@ -70,6 +70,7 @@ class Epic(object):
         figure.tight_layout()
         figure.savefig(fname)
         plt.close(figure)
+        plt.close(plotter.fig)
 
     def write_fits(self, root):
         ensure_dir(self.output_dir(root))
