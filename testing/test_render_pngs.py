@@ -20,7 +20,9 @@ def test_epic_top_level(epic):
 
 
 @pytest.mark.parametrize('input,expected', [((201644120, 1), '44000'),
-                                            ((201645050, 1), '45000'),])
+                                            ((201645050, 1), '45000'),
+                                            ((201199515, 1), '99000'),
+                                            ])
 def test_epic_bottom_level(input, expected):
     assert e.Epic(*input).bottom_level == expected
 

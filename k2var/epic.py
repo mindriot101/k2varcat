@@ -21,7 +21,7 @@ class Epic(object):
     @property
     def bottom_level(self):
         end = str(self.epicid)[-5:]
-        return str(round(int(end), -3))
+        return end[:2] + '000'
 
     def output_dir(self, root):
         return os.path.join(root, self.campaign_dir, self.top_level, self.bottom_level)
