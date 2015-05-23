@@ -1,7 +1,8 @@
 import os
 
 from .rendering import LightcurvePlotter
-from .paths import data_file_path
+from .paths import data_file_path, ensure_dir
+from astropy.io import fits
 
 class Epic(object):
 
@@ -42,9 +43,19 @@ class Epic(object):
                     campaign=self.campaign,
                     typ=typ.lower()))
 
+    def fits_file_stub(self):
+        return ('hlsp_k2varcat_k2_lightcurve_{epicid}-c{campaign:02d}_'
+                'kepler_v2_llc.fits'.format(
+                    epicid=self.epicid,
+                    campaign=self.campaign))
+
     def png_filename(self, root, typ):
         return os.path.join(self.output_dir(root),
                 self.png_filename_stub(typ))
+
+    def fits_filename(self, root):
+        return os.path.join(self.output_dir(root),
+                self.fits_file_stub())
 
     def render(self, root, typ, meta):
         fname = self.png_filename(root, typ)
@@ -57,4 +68,9 @@ class Epic(object):
         figure = plotter.figure()
         figure.tight_layout()
         figure.savefig(fname)
+
+    def write_fits(self, root):
+        ensure_dir(self.output_dir(root))
+        with fits.open(self.data_filename) as hdulist:
+            hdulist.writeto(self.fits_filename(root), checksum=True, clobber=True)
 

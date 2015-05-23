@@ -65,3 +65,9 @@ def render_only_png(output_dir, epicid, campaign, metadata):
     for typ in ['orig', 'detrend', 'phase']:
         epic.render(root=output_dir, typ=typ, meta=metadata)
     return epicid
+
+@app.task
+def copy_data_file(output_dir, epicid, campaign):
+    epic = Epic(epicid, campaign)
+    epic.write_fits(output_dir)
+    return epicid

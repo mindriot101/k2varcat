@@ -3,7 +3,7 @@ import os
 
 from .paths import BASE_DIR
 from .data_store import Database
-from .tasks import render_only_png
+from .tasks import render_only_png, copy_data_file
 
 
 def only_pngs(args):
@@ -16,6 +16,11 @@ def only_pngs(args):
             epicid=epic_id,
             campaign=campaign,
             metadata=db.get(epic_id)))
+        tasks.append(copy_data_file.delay(
+            output_dir=args.output_dir,
+            epicid=epic_id,
+            campaign=campaign))
+
     for task in tasks:
         epic_id = task.wait()
         print('Task {0} complete'.format(epic_id))
