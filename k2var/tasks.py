@@ -64,3 +64,4 @@ def render_only_png(output_dir, epicid, campaign, metadata):
     ensure_dir(output_path)
     for typ in ['orig', 'detrend', 'phase']:
         epic.render(root=output_dir, typ=typ, meta=metadata)
+    return epicid

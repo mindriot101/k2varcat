@@ -1,13 +1,24 @@
 import argparse
 import os
 
-from .paths import BASE_DIR, lightcurve_filename
+from .paths import BASE_DIR
 from .data_store import Database
-from .rendering import Plotter
+from .tasks import render_only_png
 
 
 def only_pngs(args):
-    pass
+    db = Database(args.metadata_csv)
+    tasks = []
+    for (epic_id, campaign) in db.valid_epic_ids():
+        print(epic_id, campaign)
+        tasks.append(render_only_png.delay(
+            output_dir=args.output_dir,
+            epicid=epic_id,
+            campaign=campaign,
+            metadata=db.get(epic_id)))
+    for task in tasks:
+        epic_id = task.wait()
+        print('Task {0} complete'.format(epic_id))
 
 
 
