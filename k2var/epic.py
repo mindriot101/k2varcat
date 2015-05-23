@@ -3,6 +3,7 @@ import os
 from .rendering import LightcurvePlotter
 from .paths import data_file_path, ensure_dir
 from astropy.io import fits
+import matplotlib.pyplot as plt
 
 class Epic(object):
 
@@ -68,6 +69,7 @@ class Epic(object):
         figure = plotter.figure()
         figure.tight_layout()
         figure.savefig(fname)
+        plt.close(figure)
 
     def write_fits(self, root):
         ensure_dir(self.output_dir(root))
