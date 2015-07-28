@@ -5,6 +5,7 @@ set -e
 DIRS=(
     /storage/astro2/phrlbj/K2/campaign0/Detrend_DR2_v6
     /storage/astro2/phrlbj/K2/campaign1/Detrend_v6
+    /storage/astro2/phrlbj/K2/campaign2/Detrend_v6
     )
 
 dest() {
