@@ -11,3 +11,5 @@ queue/*
 !var/run/.gitkeep
 var/run/*
 campaigns/*
+dist/*
+!dist/.gitkeep
